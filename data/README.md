@@ -1,0 +1,5 @@
+[iris](http://archive.ics.uci.edu/ml/datasets/Iris)
+[kidney](http://archive.ics.uci.edu/ml/datasets/Chronic_Kidney_Disease)
+[car](http://archive.ics.uci.edu/ml/datasets/Car+Evaluation)
+[crx](http://archive.ics.uci.edu/ml/datasets/Credit+Approval)
+[mushroom](http://archive.ics.uci.edu/ml/datasets/Mushroom)

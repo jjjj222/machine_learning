@@ -1,0 +1,5 @@
+sepal_length,   c
+sepal_width,    c
+petal_length,   c
+petal_width,    c
+class,          d
