@@ -1,16 +1,38 @@
 #!/bin/sh -f
 
-EXEC="./src/id3.rb"
-TEST_DIR="./test_id3"
+#EXEC="./src/id3.rb"
+EXEC="../src/id3.rb"
+INCLUDE_DIR="../src"
+DATA_DIR="../data"
+
+TEST_DIR="."
 TEST_EXEC="$TEST_DIR/id3_test.rb"
+TEST_INCLUDE_DIR="$TEST_DIR/src"
 
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-cp $EXEC $TEST_EXEC
+rm_exec="rm -rf $TEST_EXEC"
+rm_src="rm -rf $TEST_INCLUDE_DIR"
+cp_exec="cp $EXEC $TEST_EXEC"
+cp_src="cp -R $INCLUDE_DIR $TEST_INCLUDE_DIR"
+
+echo "In `pwd` ..."
+echo $rm_exec
+echo $rm_src
+echo $cp_exec
+echo $cp_src
+eval $rm_exec
+eval $rm_src
+eval $cp_exec
+eval $cp_src
+
 
 for c in car crx example iris kidney mushroom
 do
+    DATA_FILE="$DATA_DIR/$c/$c.data"
+    ATTR_FILE="$DATA_DIR/$c/$c.attribute"
+
     RESULT_DIR="$TEST_DIR/$c"
     RESULT_FILE="$RESULT_DIR/$c.res"
     OUT_FILE="$RESULT_DIR/$c.out"
@@ -22,7 +44,8 @@ do
         eval $run_str
     else
         echo ">>> start $c ..."
-        run_str="$TEST_EXEC -t $c > $RESULT_FILE"
+        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE > $RESULT_FILE"
+        #run_str="$TEST_EXEC -t $c > $RESULT_FILE"
         #echo $run_str
         eval $run_str
 

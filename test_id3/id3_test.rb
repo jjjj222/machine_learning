@@ -1,5 +1,11 @@
 #!/usr/bin/ruby
 
+require "./src/data.rb"
+require "./src/util.rb"
+require "./src/statistics.rb"
+
+#puts __FILE__
+#puts "#{FILE_DIR}"
 
 #------------------------------------------------------------------------------
 #   args
@@ -9,48 +15,27 @@ if ARGV.length != 2
     exit
 end
 
-if ARGV[0]  == "-t"
-    data_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.data"
-    attr_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.attribute"
-else
-    data_file_name = ARGV[0]
-    attr_file_name = ARGV[1]
-end
+#if ARGV[0]  == "-t"
+#    data_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.data"
+#    attr_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.attribute"
+#else
+#    data_file_name = ARGV[0]
+#    attr_file_name = ARGV[1]
+#end
 
-if !File.readable? data_file_name
-    puts "Error: Can't open data file \"#{data_file_name}\" !!"
-    exit
-end
+data_file_name = ARGV[0]
+attr_file_name = ARGV[1]
 
-if !File.readable? attr_file_name
-    puts "Error: Can't open attribute file \"#{attr_file_name}\" !!"
-    exit
-end
+#if !File.readable? data_file_name
+#    puts "Error: Can't open data file \"#{data_file_name}\" !!"
+#    #exit
+#end
+#
+#if !File.readable? attr_file_name
+#    puts "Error: Can't open attribute file \"#{attr_file_name}\" !!"
+#    #exit
+#end
 
-#------------------------------------------------------------------------------
-#   dump
-#------------------------------------------------------------------------------
-module Enumerable
-    def dump
-        if self.empty?
-            puts "<empty>"
-        else
-            self.each_with_index do |line, i|
-                print "#{i} : "
-                print line
-                puts
-            end
-        end
-    end
-
-    def dump_indent(indent)
-        self.each_with_index do |line, i|
-            print "#{indent}#{i} : "
-            print line
-            puts
-        end
-    end
-end
 
 #------------------------------------------------------------------------------
 #   printer
@@ -133,66 +118,6 @@ class Printer
     end
 end
 
-#------------------------------------------------------------------------------
-#   parse
-#------------------------------------------------------------------------------
-class IO
-    def self.parse_data(file)
-        lines = IO.readlines(file)
-        data = lines.map do |line|
-            line.rstrip.gsub(/\s+/, "").split(",")
-        end
-        return data
-    end
-end
-
-#------------------------------------------------------------------------------
-#   Attribute
-#------------------------------------------------------------------------------
-class Attribute
-    attr_reader :name
-    attr_reader :values
-
-    def initialize(raw_attribute)
-        raise if raw_attribute.length != 2
-        raise if !["d", "c"].include? raw_attribute[1]
-
-        @name = raw_attribute[0]
-        @type = raw_attribute[1]
-        @values = []
-
-        @missing_count = 0
-        @total_count = 0
-    end
-
-    def add_value(value)
-        @total_count += 1
-
-        if value == "?"
-            @missing_count += 1
-            return
-        end
-
-        if continuous?
-            if @values[0] == nil || @values[0] > value.to_f
-                @values[0] = value.to_f
-            end
-            if @values[1] == nil || @values[1] < value.to_f
-                @values[1] = value.to_f
-            end
-        else
-            @values |= [value]
-        end
-    end
-
-    def continuous?
-        @type == "c"
-    end
-
-    #def to_s
-    #    "#{@name} (#{@type}) #{@values.to_s}"
-    #end
-end
 
 class Range
     def initialize(min, max)
@@ -220,272 +145,6 @@ class Range
     end
 end
 
-#------------------------------------------------------------------------------
-#   LearningData
-#------------------------------------------------------------------------------
-class LearningData
-    attr_reader :examples
-    @@random_seed = 0
-    @@attributes = nil
-    def initialize(examples)
-        @examples = examples
-    end
-
-    def information_gain_with_split(attribute)
-        if attribute.continuous?
-            information_gain_with_split_continuous(attribute)
-        else
-            information_gain_with_split_discrete(attribute)
-        end
-    end
-
-    def information_gain_with_split_discrete(attribute)
-        gain = entropy
-        current_split = split_discrete(attribute)
-
-        current_split.each do |key, data|
-            ratio = data.length.to_f / length
-            gain -= ratio * data.entropy
-        end
-
-        return [gain, current_split]
-    end
-
-    def information_gain_with_split_continuous(attribute)
-        gain = entropy
-
-        points = split_points(attribute)
-        if points.empty?
-            return [-1 * Float::MAX, nil]
-        end
-
-        all_gain_with_split = points.map do |value|
-            current_split = split_at(attribute, value)
-            current_gain = current_split.each_value.inject(gain) do |sum, data|
-                ratio = data.length.to_f / length
-                sum -= ratio * data.entropy
-            end
-            [current_gain, current_split]
-        end
-
-        return all_gain_with_split.max_by {|gain_with_split| gain_with_split[0]}
-    end
-
-    def split_discrete(attribute)
-        i = @@attributes.index(attribute)
-
-        hash = Hash.new { |h, k| h[k] = [] }
-        @examples.each do |example|
-            hash[example[i]] << example
-        end
-
-        if hash.key? "?"
-            unknowns = hash.delete("?")
-            #unknowns.dump
-            sample_array = []
-            hash.each do |key, value|
-                sample_array += ([key] * value.length)
-            end
-            #sample_array.dump
-
-            rng = Random.new(@@random_seed)
-            unknowns.each do |example|
-                #key = sample_array.sample(1, random: Random.new(@@random_seed))
-                key = sample_array.sample(random: rng)
-                #puts "#{example} => #{key}"
-                hash[key] << example
-            end
-            #raise
-        end
-
-        attribute.values.each do |value|
-            hash[value] = LearningData.new(hash[value])
-        end
-
-        return hash
-    end
-
-    #def split_continuous(attribute)
-    #    #min_value = split_points(attribute).min_by do |value|
-    #    all_split = split_points(attribute).map do |value|
-    #        current_split = split_at(attribute, value)
-    #        current_split.each_value.inject(0.0) do |sum, data|
-    #            sum += data.entropy
-    #        end
-    #    end
-
-    #    return split_at(attribute, min_value)
-    #end
-
-    def split_at(attribute, value)
-        #puts @examples.length
-        #@examples.dump
-        raise if !attribute.continuous?
-
-        i = @@attributes.index(attribute)
-
-        unknown = []
-        greater = []
-        lesser = []
-        @examples.each do |example|
-            if example[i] == "?"
-                unknown << example
-                #puts example[i].to_f
-                #raise
-                next
-            end
-
-            if example[i].to_f >= value
-                greater << example
-            else
-                lesser << example
-            end
-        end
-            #raise
-
-        if !unknown.empty?
-            #unknown.dump
-            sample_array = [0] * lesser.length
-            sample_array += [1] * greater.length
-            #sample_array.dump
-            rng = Random.new(@@random_seed)
-            unknown.each do |example|
-                key = sample_array.sample(random: rng)
-                if (key == 0)
-                    lesser << example
-                else
-                    greater << example
-                end
-            end
-        end
-
-        {Range.new(nil, value)=>LearningData.new(lesser), Range.new(value, nil)=>LearningData.new(greater)}
-    end
-
-    def split_points(attribute)
-        #i = @attributes.index(attribute)
-        i = @@attributes.index(attribute)
-
-        #puts @examples.length
-        values = @examples.map do |example|
-            if example[i] == "?"
-                "?"
-            else
-                example[i].to_f
-            end
-
-        end
-        values.delete("?")
-        #puts values.length
-        #values.dump
-        #raise
-
-        result = []
-        values.sort.uniq.each_cons(2) do |value|
-            result << (value[0].to_f + value[1].to_f) / 2
-        end
-        return result
-    end
-
-    def entropy
-        hash = Hash.new(0)
-        @examples.each do |example|
-            value = example[-1]
-            hash[value] += 1
-        end
-
-        sum = 0.0
-        hash.each_value do |value|
-            ratio = value.to_f / @examples.length
-            sum += -1 * ratio * Math.log2(ratio)
-        end
-        return sum
-    end
-
-    def error_count
-        hash = class_count
-        correct_count = hash.max_by { |k, v| v}[1]
-        return @examples.length - correct_count
-    end
-
-    def majority
-        hash = class_count
-        hash.max_by { |k, v| v}[0]
-    end
-
-    def class_count
-        hash = Hash.new(0)
-
-        #@attributes[-1].values.each do |value|
-        @@attributes[-1].values.each do |value|
-            hash[value] = 0
-        end
-
-        @examples.each do |example|
-            value = example[-1]
-            hash[value] += 1
-        end
-        return hash
-    end
-
-    def length ; @examples.length ; end
-    def empty? ; @examples.empty? ; end
-
-    def same_class?
-        return nil if empty? 
-
-        classification = @examples[0][-1]
-        @examples.each do |example|
-            return nil if example[-1] != classification
-        end
-        return classification
-    end
-
-    def class_count_str
-        str = "["
-        is_first = true;
-        class_count.each do |key, value|
-            if is_first
-                is_first = false
-            else
-                str += ", "
-            end
-            str+= "#{value} #{key}"
-        end
-        str += "]"
-
-        return str
-    end
-
-    def self.get_index_by_attribute_name(name)
-        i = @@attributes.index {|attribute| attribute.name == name}
-    end
-
-    def self.attributes=(attributes)
-        @@attributes = attributes
-    end
-    def self.attributes
-        @@attributes
-    end
-
-    #def get_class
-    #    @examples[0][-1]
-    #end
-
-    #def to_s
-    #    @data.to_s
-    #end
-
-    # debug
-    def dump
-        @examples.dump
-        #puts
-        #@attributes.dump
-        #@attributes.dump
-    end
-    def dump_examples ; @examples.dump ; end
-    #def dump_attributes ; @attributes.dump ; end
-end
 
 #------------------------------------------------------------------------------
 #   
@@ -884,13 +543,11 @@ class ID3Tester
     @@random_seed = 0
     @@test_ratio = 10
     def initialize(data_file, attr_file)
-        @data_file = data_file
-        @attr_file = attr_file
+        raw_attributes = Attribute.parse_attr_file(attr_file)
+        #@examples = IO.parse_data(data_file)
+        @examples = LearningData.parse_data_file(data_file, raw_attributes.length)
 
-        @examples = IO.parse_data(data_file)
-        raw_attributes = IO.parse_data(attr_file)
-
-        @attributes = calculate_attributes(@examples, raw_attributes)
+        @attributes = Attribute.calculate_attributes(@examples, raw_attributes)
         @examples.shuffle!(random: Random.new(@@random_seed))
 
         @example_partition = Array.new(@@test_ratio) { Array.new }
@@ -1014,13 +671,16 @@ class ID3Tester
     end
 
     def get_statistics(data)
-        avg = ( data.inject(0.0) {|sum, elt| sum += elt } / data.length)
-        #puts avg
+        ##avg = ( data.inject(0.0) {|sum, elt| sum += elt } / data.length)
+        #avg = data.expected_value
+        ##puts avg
 
-        variance = ( data.inject(0.0) {|sum, elt| sum += (elt - avg)**2 } / data.length)
-        #puts variance
-        se = Math.sqrt(variance)
-        #puts se
+        #variance = ( data.inject(0.0) {|sum, elt| sum += (elt - avg)**2 } / data.length)
+        ##puts variance
+        #se = Math.sqrt(variance)
+        ##puts se
+
+        avg, se = data.mean_se
 
         tNv = 2.23
         interval_low = avg - se * tNv
@@ -1048,89 +708,82 @@ class ID3Tester
         return result
     end
 
-    def calculate_attributes(examples, raw_attributes)
-        attributes = []
-        raw_attributes.each_with_index do |raw_attribute, line|
-            if raw_attribute.length != 2
-                puts "Error: In file \"#{@attr_file}\" line #{line+1}: number of column should be 2"
-                exit
-            end
-            if !["d", "c"].include? raw_attribute[1]
-                puts "Error: In file \"#{@attr_file}\" line #{line+1}: the type should be 'd' or 'c'"
-                exit
-            end
-            attributes << Attribute.new(raw_attribute)
-        end
+    #def calculate_attributes(examples, raw_attributes)
+    #    attributes = []
+    #    raw_attributes.each_with_index do |raw_attribute, line|
+    #        if raw_attribute.length != 2
+    #            puts "Error: In file \"#{@attr_file}\" line #{line+1}: number of column should be 2"
+    #            exit
+    #        end
+    #        if !["d", "c"].include? raw_attribute[1]
+    #            puts "Error: In file \"#{@attr_file}\" line #{line+1}: the type should be 'd' or 'c'"
+    #            exit
+    #        end
+    #        attributes << Attribute.new(raw_attribute)
+    #    end
 
-        examples.each_with_index do |example, line|
-            if example.length != attributes.length
-                puts "Error: In file \"#{@data_file}\" line #{line+1}: \
-number of column (#{example.length}) != number of attributes (#{attributes.length})"
-                exit
-            end
-        end
+    #    examples.each_with_index do |example, line|
+    #        if example.length != attributes.length
+    #            puts "Error: In file \"#{@data_file}\" line #{line+1}: number of column (#{example.length}) != number of attributes (#{attributes.length})"
+    #            exit
+    #        end
+    #    end
 
 
-        attributes.each_with_index do |attribute, i|
-            examples.each do |example|
-                attribute.add_value(example[i])
-                #value = example[i]
-                #if value == "?"
-                #    #attribute.missing_count += 1
-                #    next
-                #end
+    #    attributes.each_with_index do |attribute, i|
+    #        examples.each do |example|
+    #            attribute.add_value(example[i])
+    #            #value = example[i]
+    #            #if value == "?"
+    #            #    #attribute.missing_count += 1
+    #            #    next
+    #            #end
 
-                #if attribute.continuous?
-                #    if attributes[i].values[0] == nil || attributes[i].values[0] > value.to_f
-                #        attributes[i].values[0] = value.to_f
-                #    end
-                #    if attributes[i].values[1] == nil || attributes[i].values[1] < value.to_f
-                #        attributes[i].values[1] = value.to_f
-                #    end
-                #else
-                #    attribute.values |= [value]
-                #end
-            end
-        end
-        #examples.each_with_index do |example, line|
-        #    if example.length != attributes.length
-        #        example.dump
-        #        raise "example #{line+1}: example.length(#{example.length})\
-        #             != attributes.length(#{attributes.length})"
-        #    end
+    #            #if attribute.continuous?
+    #            #    if attributes[i].values[0] == nil || attributes[i].values[0] > value.to_f
+    #            #        attributes[i].values[0] = value.to_f
+    #            #    end
+    #            #    if attributes[i].values[1] == nil || attributes[i].values[1] < value.to_f
+    #            #        attributes[i].values[1] = value.to_f
+    #            #    end
+    #            #else
+    #            #    attribute.values |= [value]
+    #            #end
+    #        end
+    #    end
+    #    #examples.each_with_index do |example, line|
+    #    #    if example.length != attributes.length
+    #    #        example.dump
+    #    #        raise "example #{line+1}: example.length(#{example.length})\
+    #    #             != attributes.length(#{attributes.length})"
+    #    #    end
 
-        #    attributes.each_index do |i|
-        #        value = example[i]
-        #        if value == "?"
-        #            #puts "line #{line+1}, attribute #{i+1} is '?'"
-        #            next
-        #        end
+    #    #    attributes.each_index do |i|
+    #    #        value = example[i]
+    #    #        if value == "?"
+    #    #            #puts "line #{line+1}, attribute #{i+1} is '?'"
+    #    #            next
+    #    #        end
 
-        #        #if attributes[i].type == "d"
-        #        if !attributes[i].continuous?
-        #            attributes[i].values |= [value]
-        #        else # type == "c"
-        #            if attributes[i].values[0] == nil || attributes[i].values[0] > value.to_f
-        #                attributes[i].values[0] = value.to_f
-        #            end
-        #            if attributes[i].values[1] == nil || attributes[i].values[1] < value.to_f
-        #                attributes[i].values[1] = value.to_f
-        #            end
-        #        end
-        #    end
-        #end
-        return attributes
-    end
+    #    #        #if attributes[i].type == "d"
+    #    #        if !attributes[i].continuous?
+    #    #            attributes[i].values |= [value]
+    #    #        else # type == "c"
+    #    #            if attributes[i].values[0] == nil || attributes[i].values[0] > value.to_f
+    #    #                attributes[i].values[0] = value.to_f
+    #    #            end
+    #    #            if attributes[i].values[1] == nil || attributes[i].values[1] < value.to_f
+    #    #                attributes[i].values[1] = value.to_f
+    #    #            end
+    #    #        end
+    #    #    end
+    #    #end
+    #    return attributes
+    #end
 end
 
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-#id3 = ID3.new(data_file_name, attr_file_name)
-#id3.dump_tree
-#id3.prune
-#id3.dump_tree
-#id3.test(test_file_name)
 id3_tester = ID3Tester.new(data_file_name, attr_file_name)
-#id3_tester.test_1
 id3_tester.cross_validation
