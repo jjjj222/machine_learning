@@ -31,18 +31,6 @@ class Attribute #static
             attributes << Attribute.new(raw_attribute, examples_column[i])
         end
 
-
-        #attributes = []
-        #raw_attributes.each_with_index do |raw_attribute|
-        #    attributes << Attribute.new(raw_attribute)
-        #end
-
-        #attributes.each_with_index do |attribute, i|
-        #    examples.each do |example|
-        #        attribute.add_value(example[i])
-        #    end
-        #end
-
         return attributes
     end
 end
@@ -75,37 +63,21 @@ class Attribute
         end
     end
 
-    #def add_value(value)
     def calculate_statistics(values)
         values.select! {|value| value != "?"}
         values.map! {|value| value.to_f }
         #values.dump
-        @values = values.mean_se
-
-        #sum = 
-
-        #min = nil
-        #max = nil
-        #values.each do |value|
-        #    if value == "?"
-        #        next
-        #    end
-
-        #    value_f = value.to_f
-
-
-        #end
-
-        #if @values[0] == nil || @values[0] > value.to_f
-        #    @values[0] = value.to_f
-        #end
-        #if @values[1] == nil || @values[1] < value.to_f
-        #    @values[1] = value.to_f
-        #end
+        #@values = values.mean_se
+        #@values = values.minmax + values.mean_se
+        @values = values.minmax + [values.expected_value]
     end
 
     def continuous?
         @type == "c"
+    end
+
+    def mean
+        @values[2]
     end
 
     def to_s
@@ -126,6 +98,23 @@ class LearningData
                 exit
             end
         end
+    end
+
+    def self.ann_normalize(examples, attributes)
+        examples_column = examples.transpose
+
+        attributes.each_with_index do |attribute, i|
+            if attribute.continuous?
+                examples_column[i].fix_unknown!(attribute.mean)
+
+                examples_column[i].map! {|elt| elt.to_f}
+                examples_column[i].normalize!
+            else
+                examples_column[i].fix_unknown!
+            end
+        end
+        
+        return examples_column.transpose
     end
 end
 

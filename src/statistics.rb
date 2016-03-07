@@ -11,4 +11,11 @@ module Enumerable
             sum += elt
         end / length
     end
+
+    def normalize!
+        mean, se = mean_se()
+        map! do |elt|
+            (elt - mean) / se
+        end
+    end
 end

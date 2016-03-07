@@ -332,9 +332,12 @@ class ID3
 
         examples.shuffle!(random: Random.new(@@random_seed))
 
-        num_of_learning_example = examples.length - examples.length / @@prune_ratio
-        learning_examples = examples[0...num_of_learning_example]
-        @prune_examples = examples[num_of_learning_example..-1]
+        #num_of_learning_example = examples.length - examples.length / @@prune_ratio
+        #learning_examples = examples[0...num_of_learning_example]
+        #@prune_examples = examples[num_of_learning_example..-1]
+
+        learning_examples, @prune_examples = examples.partition_ratio(@@prune_ratio)
+
         @data = LearningData.new(learning_examples)
 
         build
