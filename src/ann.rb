@@ -25,34 +25,79 @@ class ANN
             exit
         end
 
-        examples = [examples[0]]
+        #examples = [examples[0]]
+        #examples = examples[0..3]
 
         @width_of_output = attributes[-1].values.length
         @width_of_input = examples[0].length - @width_of_output
         @width_of_hidden_layer = attributes.size - 1
         @num_of_hidden_layer = 1
+        #@update_ratio = 0.1
         @update_ratio = 0.1
 
         @x = initialize_node()
         @sigma = initialize_node()
         @w = initialize_edge(@x)
 
-        (0...1000).each do |qq|
-            examples.each do |example|
+        min_error = 10000.0
+        (0...1000000).each do |qq|
+            #examples.each do |example|
+            #    input, output = example.split_at(@width_of_input)
+            #    forward_propagate(input)
+            #    back_propagation(output)
+            #end
+            examples.each_with_index do |example, i|
                 input, output = example.split_at(@width_of_input)
-                forward_propagate(input)
+                res = forward_propagate(input)
                 back_propagation(output)
+                #print "#{i} : "
+                #puts "#{output} #{res}"
+            end
+
+            error = calculate_all_error(examples)
+
+            if min_error > error
+                min_error = error
+                puts "#{qq} #{min_error}"
+            else
             end
         end
 
-        examples.each do |example|
+        #@x.dump
+        #puts
+        #@sigma.dump
+        #puts
+        #@w.dump
+        #puts "---"
+
+        #input, output = examples[0].split_at(@width_of_input)
+        #forward_propagate(input)
+        #back_propagation(output)
+        #@x.dump
+        #puts
+        #@sigma.dump
+        #puts
+        #@w.dump
+
+        #@sigma.dump
+        #@x.dump
+        #@sigma[2][0] = "QQ"
+        #puts
+        #@sigma.dump
+        #@x.dump
+
+
+        examples.each_with_index do |example, i|
             input, output = example.split_at(@width_of_input)
+            #print example; puts
             res = forward_propagate(input)
-            puts "#{output} #{res}"
+            puts "#{i} : #{output} #{res}"
         end
+
+
         #error = calculate_all_error(examples)
-        error = calculate_error(examples[0])
-        puts "#{error}"
+        ##error = calculate_error(examples[0])
+        #puts "#{error}"
 
 
         #output = examples[0][@width_of_input..-1]
@@ -88,16 +133,31 @@ class ANN
             @sigma[-1][i] = res[i] * (1.0 - res[i]) * (output[i] - res[i])
         end
 
-        @sigma[1...-1].reverse_each_with_index do |sigma_row, i|
+        #@sigma[1...-1].reverse_each_with_index do |sigma_row, i|
+        #    sigma_row.each_index do |j|
+        #        sum = 0.0
+        #        @w[i+1].each_with_index do |w_elt, k|
+        #            sum += (w_elt[j] * @sigma[i+1][k])
+        #        end
+        #        @sigma[i][j] = @x[i][j] * (1.0 - @x[i][j]) * sum
+        #        #puts "#{i} #{j} = #{@x[i][j]} #{sum} #{@sigma[i][j]}"
+        #    end
+        #end
+
+        @sigma.reverse_each_with_index do |sigma_row, i|
+            if i == 0 or i == @sigma.length - 1
+                next
+            end
+
             sigma_row.each_index do |j|
                 sum = 0.0
                 @w[i+1].each_with_index do |w_elt, k|
                     sum += (w_elt[j] * @sigma[i+1][k])
                 end
                 @sigma[i][j] = @x[i][j] * (1.0 - @x[i][j]) * sum
+                #puts "#{i} #{j} = #{@x[i][j]} #{sum} #{@sigma[i][j]}"
             end
         end
-
     end
 
     def back_propagation(output)
@@ -149,6 +209,7 @@ class ANN
         nodes.each_with_index do |nodes_row, i|
             w_row = []
             nodes_row.length.times do
+                #w_row << (i == 0 ? [] : ([0.1] * (nodes[i-1].length + 1)))
                 w_row << (i == 0 ? [] : ([0.0] * (nodes[i-1].length + 1)))
             end
             w << w_row
