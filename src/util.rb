@@ -105,7 +105,7 @@ module Enumerable
             rng = Random.new(random_seed)
             map! do |elt|
                 if (elt == "?")
-                    sample_array.sample({random => rng})
+                    sample_array.sample({:random => rng})
                     #sample_array.sample(random: rng)
                 else
                     elt
