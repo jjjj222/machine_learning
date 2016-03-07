@@ -14,6 +14,13 @@ module Enumerable
         second_part = self[num_of_first..-1]
         return [first_part, second_part]
     end
+
+    def split_at(pos)
+        res = []
+        res << self[0...pos]
+        res << self[pos..-1]
+        return res
+    end
 end
 
 module Enumerable

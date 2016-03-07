@@ -20,41 +20,62 @@ class ANN
             map_to_input(example, attributes)
         end
 
-
-
         if (attributes[-1].continuous?)
             puts "TODO: if (attributes[-1].continuous?)"
             exit
         end
 
-
+        examples = [examples[0]]
 
         @width_of_output = attributes[-1].values.length
         @width_of_input = examples[0].length - @width_of_output
         @width_of_hidden_layer = attributes.size - 1
         @num_of_hidden_layer = 1
+        @update_ratio = 0.1
 
         @x = initialize_node()
         @sigma = initialize_node()
         @w = initialize_edge(@x)
 
         (0...1000).each do |qq|
-            output = examples[0][@width_of_input..-1]
-            res = forward_propagate(@x, examples[0][0...@width_of_input])
-            #puts "#{output} #{res}"
-
-            calculate_sigma(res, output)
-            back_propagation(@w, @x, @sigma)
+            input, output = examples[0].split_at(@width_of_input)
+            forward_propagate(input)
+            back_propagation(output)
         end
+
+
+
         output = examples[0][@width_of_input..-1]
-        res = forward_propagate(@x, examples[0][0...@width_of_input])
-        puts "#{output} #{res}"
+        #res = forward_propagate(@x, examples[0][0...@width_of_input])
+        #forward_propagate(@x, examples[0][0...@width_of_input])
+        forward_propagate(examples[0][0...@width_of_input])
+        res = @x[-1]
+        error = calculate_error(examples[0])
+        puts "#{output} #{res} #{error}"
     end
 
-    def calculate_sigma(res, output)
+    def calculate_all_error(examples)
+        examples.inject(0.0) do |sum, example|
+            sum += calculate_error(example)
+        end
+    end
+
+    def calculate_error(example)
+        input, output = example.split_at(@width_of_input)
+        res = forward_propagate(input)
+
+        sum = 0.0
+        output.each_with_index do |output_i, i|
+            sum += (res[i] - output_i) ** 2
+        end
+
+        return sum / 2
+    end
+
+    def calculate_sigma(output)
+        res = @x[-1]
         @sigma[-1].each_index do |i|
             @sigma[-1][i] = res[i] * (1.0 - res[i]) * (output[i] - res[i])
-            #@sigma[-1][i] = res[i] * (1.0 - res[i]) * (@x[-1][i] - res[i])
         end
 
         @sigma[1...-1].reverse_each_with_index do |sigma_row, i|
@@ -63,58 +84,48 @@ class ANN
                 @w[i+1].each_with_index do |w_elt, k|
                     sum += (w_elt[j] * @sigma[i+1][k])
                 end
-                #sum += (@sigma[i+1] * @w[i+1][])
                 @sigma[i][j] = @x[i][j] * (1.0 - @x[i][j]) * sum
             end
         end
 
     end
 
-    def back_propagation(w, x, sigma)
-        #w.dump
-        w.each_index do |i|
+    def back_propagation(output)
+        calculate_sigma(output)
+
+        @w.each_index do |i|
             if i == 0
                 next
             end
 
-            x_with_1 = x[i-1] + [1.0]
+            x_row_with_1 = @x[i-1] + [1.0]
 
-            w[i].each_index do |j|
-                w[i][j].each_index do |k|
-                    #puts "#{i} #{j} #{k}"
-                    #byebug
-                    w[i][j][k] += 0.1 * sigma[i][j] * x_with_1[k]
-                    #puts w[i][j][k]
+            @w[i].each_index do |j|
+                @w[i][j].each_index do |k|
+                    @w[i][j][k] += @update_ratio * @sigma[i][j] * x_row_with_1[k]
                 end
             end
         end
-        #puts @w[2][0][0]
-
-        #w.dump
-
     end
 
-    def forward_propagate(x, example)
-        x.each_with_index do |x_row, i|
+    def forward_propagate(example)
+        @x.each_with_index do |x_row, i|
             if (i == 0)
-                x[i] = example
+                @x[i] = example
             else
                 x_row.each_with_index do |x_cell, j|
-                    x[i][j] = Math.sigmoid((x[i-1] + [1.0]).inner_product(@w[i][j]))
+                    @x[i][j] = Math.sigmoid((@x[i-1] + [1.0]).inner_product(@w[i][j]))
                 end
             end
         end
 
-        #x.dump
-
-        return x[-1]
+        return @x[-1]
     end
 
     def initialize_node
         x = []
 
         x << [0.0] * @width_of_input
-        #(0...@num_of_hidden_layer).each do |i|
         @num_of_hidden_layer.times do
             x << [0.0] * @width_of_hidden_layer
         end
