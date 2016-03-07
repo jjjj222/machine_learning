@@ -1,6 +1,18 @@
 #!/usr/bin/ruby
 
 require "./src/data.rb"
+
+#------------------------------------------------------------------------------
+#   
+#------------------------------------------------------------------------------
+if ARGV.length == 1
+    $num_of_iteration = ARGV[0].to_i
+else
+    $num_of_iteration = 100
+end
+
+#data_file_name = ARGV[0]
+#attr_file_name = ARGV[1]
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
@@ -41,7 +53,8 @@ class ANN
 
         min_error = 10000.0
         #(0...1000000).each do |qq|
-        (0...10000).each do |qq|
+        #(0...100).each do |qq|
+        (0...$num_of_iteration).each do |qq|
             #examples.each do |example|
             #    input, output = example.split_at(@width_of_input)
             #    forward_propagate(input)
@@ -64,36 +77,14 @@ class ANN
             end
         end
 
-        #@x.dump
-        #puts
-        #@sigma.dump
-        #puts
-        #@w.dump
-        #puts "---"
-
-        #input, output = examples[0].split_at(@width_of_input)
-        #forward_propagate(input)
-        #back_propagation(output)
-        #@x.dump
-        #puts
-        #@sigma.dump
-        #puts
-        #@w.dump
-
-        #@sigma.dump
-        #@x.dump
-        #@sigma[2][0] = "QQ"
-        #puts
-        #@sigma.dump
-        #@x.dump
-
-
         examples.each_with_index do |example, i|
             input, output = example.split_at(@width_of_input)
             #print example; puts
             res = forward_propagate(input)
             puts "#{i} : #{output} #{res}"
         end
+        error = calculate_all_error(examples)
+        puts "#{error}"
 
 
         #error = calculate_all_error(examples)
