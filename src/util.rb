@@ -8,11 +8,12 @@ module Enumerable
     #    @prune_examples = examples[num_of_learning_example..-1]
     #end
 
-    def partition_ratio(ratio)
+    def partition_by_ratio(ratio)
         num_of_first = length - length / ratio
-        first_part = self[0...num_of_first]
-        second_part = self[num_of_first..-1]
-        return [first_part, second_part]
+        return split_at(num_of_first)
+        #first_part = self[0...num_of_first]
+        #second_part = self[num_of_first..-1]
+        #return [first_part, second_part]
     end
 
     def split_at(pos)

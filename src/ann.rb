@@ -1,6 +1,21 @@
 #!/usr/bin/ruby
 
+require 'json'
+
 require "./src/data.rb"
+
+#lines = IO.readlines("tmp/ann.json")
+##lines.dump
+##puts lines
+#parsed = JSON.parse(lines[0])
+##parsed.dump
+##puts parsed.is_a? Array
+#puts parsed
+#
+##$
+#$DUMP_FILE_NAME = __FILE__
+#puts Time.now.strftime "%Y%m%d_%H%M%S"
+#exit
 
 #------------------------------------------------------------------------------
 #   
@@ -8,7 +23,7 @@ require "./src/data.rb"
 if ARGV.length == 1
     $num_of_iteration = ARGV[0].to_i
 else
-    $num_of_iteration = 100
+    $num_of_iteration = 1000
 end
 
 #data_file_name = ARGV[0]
@@ -16,19 +31,23 @@ end
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-#case_name = "iris"
-case_name = "example2"
+case_name = "iris"
+#case_name = "example2"
 file_base_name = "./data/#{case_name}/#{case_name}"
 data_file_name = "#{file_base_name}.data"
 attr_file_name = "#{file_base_name}.attribute"
 
 class ANN
+    @@random_seed = 0
+    @@partition_ratio = 3
     #@@partition_ratio = 5
 
     def initialize(examples, attributes)
-        examples = LearningData.ann_normalize(examples, attributes)
+        examples.shuffle!(random: Random.new(@@random_seed))
 
-        examples.map! do |example|
+        normalized_examples = LearningData.ann_normalize(examples, attributes)
+
+        mapped_examples = normalized_examples.map do |example|
             map_to_input(example, attributes)
         end
 
@@ -37,14 +56,14 @@ class ANN
             exit
         end
 
-        #examples = [examples[0]]
-        #examples = examples[0..3]
+        training_examples, validation_examples =
+            mapped_examples.partition_by_ratio(@@partition_ratio)
+
 
         @width_of_output = attributes[-1].values.length
-        @width_of_input = examples[0].length - @width_of_output
+        @width_of_input = training_examples[0].length - @width_of_output
         @width_of_hidden_layer = attributes.size - 1
         @num_of_hidden_layer = 1
-        #@update_ratio = 0.1
         @update_ratio = 0.1
 
         @x = initialize_node()
@@ -52,40 +71,48 @@ class ANN
         @w = initialize_edge(@x)
 
         min_error = 10000.0
-        #(0...1000000).each do |qq|
-        #(0...100).each do |qq|
-        (0...$num_of_iteration).each do |qq|
+
+        (1..$num_of_iteration).each do |i|
             #examples.each do |example|
-            #    input, output = example.split_at(@width_of_input)
-            #    forward_propagate(input)
-            #    back_propagation(output)
-            #end
-            examples.each_with_index do |example, i|
+            training_examples.each do |example|
                 input, output = example.split_at(@width_of_input)
-                res = forward_propagate(input)
+                forward_propagate(input)
                 back_propagation(output)
-                #print "#{i} : "
-                #puts "#{output} #{res}"
             end
 
-            error = calculate_all_error(examples)
+            #error = calculate_all_error(examples)
+            #error = calculate_all_error(training_examples)
+            error = calculate_all_error(validation_examples)
 
             if min_error > error
                 min_error = error
-                puts "#{qq} #{min_error}"
-            else
+                puts "#{i}/#{$num_of_iteration} #{min_error}"
             end
         end
 
-        examples.each_with_index do |example, i|
+        #@w.dump
+        #examples.each_with_index do |example, i|
+        #training_examples.each_with_index do |example, i|
+        validation_examples.each_with_index do |example, i|
             input, output = example.split_at(@width_of_input)
             #print example; puts
             res = forward_propagate(input)
             puts "#{i} : #{output} #{res}"
         end
-        error = calculate_all_error(examples)
-        puts "#{error}"
+        #error = calculate_all_error(examples)
+        #puts "#{error}"
+        #@x.dump
+        #@sigma.dump
+        #@w.dump
 
+        #hash = Hash.new
+        #hash["width_of_input"] = @width_of_input
+        #hash["w"] = @w
+
+        #File.open("tmp/ann.json", "w") do |f|
+        #    #f.write(@w.to_json)
+        #    f.write(hash.to_json)
+        #end
 
         #error = calculate_all_error(examples)
         ##error = calculate_error(examples[0])
@@ -124,17 +151,6 @@ class ANN
         @sigma[-1].each_index do |i|
             @sigma[-1][i] = res[i] * (1.0 - res[i]) * (output[i] - res[i])
         end
-
-        #@sigma[1...-1].reverse_each_with_index do |sigma_row, i|
-        #    sigma_row.each_index do |j|
-        #        sum = 0.0
-        #        @w[i+1].each_with_index do |w_elt, k|
-        #            sum += (w_elt[j] * @sigma[i+1][k])
-        #        end
-        #        @sigma[i][j] = @x[i][j] * (1.0 - @x[i][j]) * sum
-        #        #puts "#{i} #{j} = #{@x[i][j]} #{sum} #{@sigma[i][j]}"
-        #    end
-        #end
 
         @sigma.reverse_each_with_index do |sigma_row, i|
             if i == 0 or i == @sigma.length - 1
@@ -217,7 +233,7 @@ class ANN
                 res << example[i]
             else
                 attribute.values.each do |value|
-                    res << (example[i] == value ? 1.0 : 0.0) 
+                    res << (example[i] == value ? 1.0 : 0.0)
                 end
             end
         end
