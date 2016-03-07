@@ -38,20 +38,30 @@ class ANN
         @w = initialize_edge(@x)
 
         (0...1000).each do |qq|
-            input, output = examples[0].split_at(@width_of_input)
-            forward_propagate(input)
-            back_propagation(output)
+            examples.each do |example|
+                input, output = example.split_at(@width_of_input)
+                forward_propagate(input)
+                back_propagation(output)
+            end
         end
 
-
-
-        output = examples[0][@width_of_input..-1]
-        #res = forward_propagate(@x, examples[0][0...@width_of_input])
-        #forward_propagate(@x, examples[0][0...@width_of_input])
-        forward_propagate(examples[0][0...@width_of_input])
-        res = @x[-1]
+        examples.each do |example|
+            input, output = example.split_at(@width_of_input)
+            res = forward_propagate(input)
+            puts "#{output} #{res}"
+        end
+        #error = calculate_all_error(examples)
         error = calculate_error(examples[0])
-        puts "#{output} #{res} #{error}"
+        puts "#{error}"
+
+
+        #output = examples[0][@width_of_input..-1]
+        ##res = forward_propagate(@x, examples[0][0...@width_of_input])
+        ##forward_propagate(@x, examples[0][0...@width_of_input])
+        #forward_propagate(examples[0][0...@width_of_input])
+        #res = @x[-1]
+        #error = calculate_error(examples[0])
+        #puts "#{output} #{res} #{error}"
     end
 
     def calculate_all_error(examples)
