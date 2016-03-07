@@ -5,7 +5,7 @@ require "./src/data.rb"
 #   
 #------------------------------------------------------------------------------
 #case_name = "iris"
-case_name = "example"
+case_name = "example2"
 file_base_name = "./data/#{case_name}/#{case_name}"
 data_file_name = "#{file_base_name}.data"
 attr_file_name = "#{file_base_name}.attribute"
@@ -40,7 +40,8 @@ class ANN
         @w = initialize_edge(@x)
 
         min_error = 10000.0
-        (0...1000000).each do |qq|
+        #(0...1000000).each do |qq|
+        (0...10000).each do |qq|
             #examples.each do |example|
             #    input, output = example.split_at(@width_of_input)
             #    forward_propagate(input)
