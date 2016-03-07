@@ -186,7 +186,8 @@ class LearningData
             rng = Random.new(@@random_seed)
             unknowns.each do |example|
                 #key = sample_array.sample(1, random: Random.new(@@random_seed))
-                key = sample_array.sample(random: rng)
+                #key = sample_array.sample(random: rng)
+                key = sample_array.sample({:random => rng})
                 #puts "#{example} => #{key}"
                 hash[key] << example
             end
@@ -245,7 +246,8 @@ class LearningData
             #sample_array.dump
             rng = Random.new(@@random_seed)
             unknown.each do |example|
-                key = sample_array.sample(random: rng)
+                #key = sample_array.sample(random: rng)
+                key = sample_array.sample({:random => rng})
                 if (key == 0)
                     lesser << example
                 else
