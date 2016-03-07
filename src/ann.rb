@@ -14,102 +14,41 @@ class ANN
     #@@partition_ratio = 5
 
     def initialize(examples, attributes)
-        examples_column = examples.transpose
-
-        attributes.each_with_index do |attribute, i|
-            if attribute.continuous?
-                examples_column[i].fix_unknown!(attribute.mean)
-
-                examples_column[i].map! {|elt| elt.to_f}
-                examples_column[i].normalize!
-            else
-                examples_column[i].fix_unknown!
-            end
-        end
-        
-        examples = examples_column.transpose
         examples = LearningData.ann_normalize(examples, attributes)
-        #examples.dump
-        #attributes.each_with_index do |attribute, i|
-        #    if !attribute.continuous?
-        #        next
-        #    end
 
-        #    examples_column[i].
-
-        #end
-        #x = []
-        #x.dump
-
-        #attr_map
         examples.map! do |example|
-            example_map(example, attributes)
+            map_to_input(example, attributes)
         end
-        #examples.dump
-        #attributes.dump
-        #attributes.dump
+
 
 
         if (attributes[-1].continuous?)
             puts "TODO: if (attributes[-1].continuous?)"
             exit
-        else
-            width_of_output = attributes[-1].values.length
-            width_of_input = examples[0].length - width_of_output
-        end
-        #puts width_of_output
-        #puts width_of_input
-        #examples[0].dump
-        width_of_hidden_layer = attributes.size - 1
-        num_of_hidden_layer = 1
-        @x = []
-
-        @x << [0.0] * width_of_input
-
-        #previous_width = width_of_input
-        (0...num_of_hidden_layer).each do |i|
-            #x << [0.0] * previous_width
-            #previous_width = width_of_hidden_layer
-            @x << [0.0] * width_of_hidden_layer
-        end
-        @x << [0.0] * width_of_output
-
-        #@x.dump
-        @sigma = @x.map {|elt| elt.dup }
-        #@sigma.dump
-
-
-        @w = []
-        @x.each_with_index do |x_row, i|
-            if i == 0
-                w_row = []
-                (0...x_row.length).each do |j|
-                    w_row << []
-                end
-                @w << w_row
-                #@w << [[]] * x_row.length
-            else
-                w_row = []
-                (0...x_row.length).each do |j|
-                    w_row << [0.0] * (@x[i-1].length + 1)
-                end
-                #@w << [[1.0] * @x[i-1].length] * x_row.length
-                #@w << [[0.0] * (@x[i-1].length + 1)] * x_row.length
-                #print w_row; puts
-                @w << w_row
-            end
         end
 
-        #examples.dump
-        #@w.dump
-        (0...1000000).each do |qq|
-            output = examples[0][width_of_input..-1]
-            res = forward_propagate(@x, examples[0][0...width_of_input])
-            puts "#{output} #{res}"
+
+
+        @width_of_output = attributes[-1].values.length
+        @width_of_input = examples[0].length - @width_of_output
+        @width_of_hidden_layer = attributes.size - 1
+        @num_of_hidden_layer = 1
+
+        @x = initialize_node()
+        @sigma = initialize_node()
+        @w = initialize_edge(@x)
+
+        (0...1000).each do |qq|
+            output = examples[0][@width_of_input..-1]
+            res = forward_propagate(@x, examples[0][0...@width_of_input])
+            #puts "#{output} #{res}"
 
             calculate_sigma(res, output)
             back_propagation(@w, @x, @sigma)
         end
+        output = examples[0][@width_of_input..-1]
+        res = forward_propagate(@x, examples[0][0...@width_of_input])
+        puts "#{output} #{res}"
     end
 
     def calculate_sigma(res, output)
@@ -171,49 +110,46 @@ class ANN
         return x[-1]
     end
 
-    def initiate_w(x)
-        w = []
-        x.each_with_index do |x_row, i|
-            if i == 0
-                w << [[]] * x_row.length
-            else
-                w << [[0.0] * (x[i-1].length + 1)] * x_row.length
-            end
-        end
-        return w
-    end
-
-    #def inner_prodect(a, b)
-    #    
-    #end
-
-    def example_map(example, attributes)
+    def initialize_node
         x = []
 
-        attributes.each_with_index do |attribute, i|
-            if attribute.continuous?
-                x << example[i]
-            else
-                attribute.values.each do |value|
-                    if example[i] == value
-                        x << 1.0
-                    else
-                        x << 0.0
-                    end
-                end
-            end
-
+        x << [0.0] * @width_of_input
+        #(0...@num_of_hidden_layer).each do |i|
+        @num_of_hidden_layer.times do
+            x << [0.0] * @width_of_hidden_layer
         end
+        x << [0.0] * @width_of_output
 
         return x
     end
 
-    #def normalize(examples, attributes)
-    #   V attributes.each_with_index do |attribute, i|
-    #        examples.each
+    def initialize_edge(nodes)
+        w = []
+        nodes.each_with_index do |nodes_row, i|
+            w_row = []
+            nodes_row.length.times do
+                w_row << (i == 0 ? [] : ([0.0] * (nodes[i-1].length + 1)))
+            end
+            w << w_row
+        end
+        return w
+    end
 
-    #    end
-    #end
+    def map_to_input(example, attributes)
+        res = []
+
+        attributes.each_with_index do |attribute, i|
+            if attribute.continuous?
+                res << example[i]
+            else
+                attribute.values.each do |value|
+                    res << (example[i] == value ? 1.0 : 0.0) 
+                end
+            end
+        end
+
+        return res
+    end
 end
 
 class Tester
