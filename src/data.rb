@@ -69,7 +69,7 @@ class Attribute
         #values.dump
         #@values = values.mean_se
         #@values = values.minmax + values.mean_se
-        @values = values.minmax + [values.expected_value]
+        @values = values.minmax + values.mean_se
     end
 
     def continuous?
@@ -78,6 +78,10 @@ class Attribute
 
     def mean
         @values[2]
+    end
+
+    def se
+        @values[3]
     end
 
     def to_s
@@ -108,7 +112,8 @@ class LearningData
                 examples_column[i].fix_unknown!(attribute.mean)
 
                 examples_column[i].map! {|elt| elt.to_f}
-                examples_column[i].normalize!
+                #examples_column[i].normalize!
+                examples_column[i].normalize_by!(attribute.mean, attribute.se)
             else
                 examples_column[i].fix_unknown!
             end

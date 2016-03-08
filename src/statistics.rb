@@ -18,4 +18,10 @@ module Enumerable
             (elt - mean) / se
         end
     end
+
+    def normalize_by!(mean, se)
+        map! do |elt|
+            (elt - mean) / se
+        end
+    end
 end

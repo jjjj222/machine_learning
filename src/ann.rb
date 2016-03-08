@@ -43,6 +43,10 @@ class ANN
     #@@partition_ratio = 5
 
     def initialize(examples, attributes)
+
+        #attributes.dump
+        #exit
+
         examples.shuffle!(random: Random.new(@@random_seed))
 
         normalized_examples = LearningData.ann_normalize(examples, attributes)
