@@ -105,8 +105,8 @@ class ANN
                 puts "#{i}/#{$num_of_iteration} #{min_error}"
             end
 
-            #if (i > 100000 && i > 2 * best_i)
-            if (i > 2 * best_i)
+            if (i > 100000 && i > 2 * best_i)
+            #if (i > 2 * best_i)
                 break
             end
         end
