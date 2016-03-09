@@ -1,12 +1,13 @@
 #!/bin/sh -f
 
 #EXEC="./src/id3.rb"
-EXEC="../src/id3.rb"
-INCLUDE_DIR="../src"
-DATA_DIR="../data"
+TOP_DIR="../.."
+EXEC="$TOP_DIR/src/run_id3.rb"
+INCLUDE_DIR="$TOP_DIR/src"
+DATA_DIR="$TOP_DIR/data"
 
 TEST_DIR="."
-TEST_EXEC="$TEST_DIR/id3_test.rb"
+TEST_EXEC="$TEST_DIR/test_exec.rb"
 TEST_INCLUDE_DIR="$TEST_DIR/src"
 
 #------------------------------------------------------------------------------

@@ -337,7 +337,7 @@ class ID3
         #@prune_examples = examples[num_of_learning_example..-1]
 
         #learning_examples, @prune_examples = examples.partition_ratio(@@prune_ratio)
-        learning_examples, @prune_examples = examples.partition_by_ratio(@@prune_ratio)
+        learning_examples, @prune_examples = examples.split_by_ratio(@@prune_ratio)
 
         @data = LearningData.new(learning_examples)
 
@@ -554,12 +554,13 @@ class ID3Tester
         @attributes = Attribute.calculate_attributes(@examples, raw_attributes)
         @examples.shuffle!(random: Random.new(@@random_seed))
 
-        @example_partition = Array.new(@@test_ratio) { Array.new }
-        @examples.each_slice(@@test_ratio) do |n_examples|
-            n_examples.each_with_index do |example, i|
-                @example_partition[i] << example
-            end
-        end
+        @example_partition = @examples.partition_n_parts(@@test_ratio)
+        #@example_partition = Array.new(@@test_ratio) { Array.new }
+        #@examples.each_slice(@@test_ratio) do |n_examples|
+        #    n_examples.each_with_index do |example, i|
+        #        @example_partition[i] << example
+        #    end
+        #end
     end
 
     def test_1
@@ -584,7 +585,8 @@ class ID3Tester
             printer.draw_box "round #{i+1}", "="
             recorder << i+1
 
-            learning_examples = get_learning_examples(i)
+            #learning_examples = get_learning_examples(i)
+            learning_examples = @example_partition.merge_all_but(i)
             test_examples = @example_partition[i]
             #puts "# of learning examples = #{learning_examples.length}"
             #recorder << learning_examples.length
@@ -702,15 +704,15 @@ class ID3Tester
         return sprintf("%0.02f", data)
     end
 
-    def get_learning_examples(i_excluded)
-        result = []
-        @example_partition.each_with_index do |examples, i|
-            if i != i_excluded
-                result += examples
-            end
-        end
-        return result
-    end
+    #def get_learning_examples(i_excluded)
+    #    result = []
+    #    @example_partition.each_with_index do |examples, i|
+    #        if i != i_excluded
+    #            result += examples
+    #        end
+    #    end
+    #    return result
+    #end
 
     #def calculate_attributes(examples, raw_attributes)
     #    attributes = []
