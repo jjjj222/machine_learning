@@ -13,8 +13,10 @@ require "./src/data.rb"
 #puts parsed
 #
 ##$
+$START_TIME = Time.now.strftime "%Y%m%d_%H%M%S"
 #$DUMP_FILE_NAME = __FILE__
-#puts Time.now.strftime "%Y%m%d_%H%M%S"
+$DUMP_FILE_NAME = "./tmp/ann_#{$START_TIME}.json"
+#puts $DUMP_FILE_NAME
 #exit
 
 #------------------------------------------------------------------------------
@@ -23,7 +25,8 @@ require "./src/data.rb"
 if ARGV.length == 1
     $num_of_iteration = ARGV[0].to_i
 else
-    $num_of_iteration = 1000
+    #$num_of_iteration = 1000
+    $num_of_iteration = 100
 end
 
 #data_file_name = ARGV[0]
@@ -31,8 +34,9 @@ end
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-case_name = "iris"
+$CASE_NAME = "iris"
 #case_name = "example2"
+case_name = $CASE_NAME
 file_base_name = "./data/#{case_name}/#{case_name}"
 data_file_name = "#{file_base_name}.data"
 attr_file_name = "#{file_base_name}.attribute"
@@ -74,7 +78,9 @@ class ANN
         @sigma = initialize_node()
         @w = initialize_edge(@x)
 
-        min_error = 10000.0
+        best_i = 0
+        min_error = 1000000.0
+        best_w = @w.deep_dup
 
         (1..$num_of_iteration).each do |i|
             #examples.each do |example|
@@ -88,35 +94,51 @@ class ANN
             #error = calculate_all_error(training_examples)
             error = calculate_all_error(validation_examples)
 
+            if (i % 10000 == 0)
+                puts "#{i}"
+            end
+
             if min_error > error
                 min_error = error
+                best_i = i
+                best_w = @w.deep_dup
                 puts "#{i}/#{$num_of_iteration} #{min_error}"
             end
         end
 
+        #validation_examples.each_with_index do |example, i|
+        #    input, output = example.split_at(@width_of_input)
+        #    res = forward_propagate(input)
+        #    puts "#{i} : #{output} #{res}"
+        #end
+
+        puts
+        puts "best #{best_i} : #{min_error}"
+        best_w.dump
+
         #@w.dump
-        #examples.each_with_index do |example, i|
-        #training_examples.each_with_index do |example, i|
-        validation_examples.each_with_index do |example, i|
-            input, output = example.split_at(@width_of_input)
-            #print example; puts
-            res = forward_propagate(input)
-            puts "#{i} : #{output} #{res}"
-        end
+        #@dup_w = @w.deep_dup
+        #@dup_w[0][0][0] = "QQ"
+        #@dup_w[1][1][1] = "XD"
+        #@dup_w.dump
+
+
         #error = calculate_all_error(examples)
         #puts "#{error}"
         #@x.dump
         #@sigma.dump
         #@w.dump
 
-        #hash = Hash.new
-        #hash["width_of_input"] = @width_of_input
-        #hash["w"] = @w
+        hash = Hash.new
+        hash["case_name"] = $CASE_NAME
+        hash["i"] = best_i
+        hash["error"] = min_error
+        hash["w"] = best_w
 
-        #File.open("tmp/ann.json", "w") do |f|
-        #    #f.write(@w.to_json)
-        #    f.write(hash.to_json)
-        #end
+        File.open($DUMP_FILE_NAME, "w") do |f|
+            #f.write(best_w.to_json)
+            f.write(hash.to_json)
+        end
 
         #error = calculate_all_error(examples)
         ##error = calculate_error(examples[0])

@@ -55,11 +55,26 @@ class Array
   end
 end
 
-#module Enumerable
-#    def deep_dup
-#        map {|elt| elt.deep_dup }
-#    end
-#end
+#------------------------------------------------------------------------------
+#   deep_dup
+#------------------------------------------------------------------------------
+module Enumerable
+    def deep_dup
+        map {|elt| elt.deep_dup }
+    end
+end
+
+class Numeric
+    def deep_dup
+        self
+    end
+end
+
+class Object
+    def deep_dup
+        self.dup
+    end
+end
 
 #------------------------------------------------------------------------------
 #   Math
