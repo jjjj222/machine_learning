@@ -104,6 +104,11 @@ class ANN
                 best_w = @w.deep_dup
                 puts "#{i}/#{$num_of_iteration} #{min_error}"
             end
+
+            #if (i > 100000 && i > 2 * best_i)
+            if (i > 2 * best_i)
+                break
+            end
         end
 
         #validation_examples.each_with_index do |example, i|
