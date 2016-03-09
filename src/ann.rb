@@ -48,15 +48,13 @@ class ANN
 
     def initialize(examples, attributes)
 
-        #attributes.dump
-        #exit
-
         examples.shuffle!(random: Random.new(@@random_seed))
 
-        normalized_examples = LearningData.ann_normalize(examples, attributes)
+        #normalized_examples = ann_normalize(examples, attributes)
 
-        mapped_examples = normalized_examples.map do |example|
-            map_to_input(example, attributes)
+        #mapped_examples = normalized_examples.map do |example|
+        mapped_examples = examples.map do |example|
+            map_to_ann(example, attributes)
         end
 
         if (attributes[-1].continuous?)
@@ -256,20 +254,53 @@ class ANN
         return w
     end
 
-    def map_to_input(example, attributes)
+    def map_to_ann(example, attributes)
         res = []
 
         attributes.each_with_index do |attribute, i|
-            if attribute.continuous?
-                res << example[i]
+            if (example[i] == "?")
+                if attribute.continuous?
+                    res << attribute.mean
+                else
+                    value = 1.0 / attribute.values.length
+                    attribute.values.length.times do
+                        res << value
+                    end
+                end
             else
-                attribute.values.each do |value|
-                    res << (example[i] == value ? 1.0 : 0.0)
+                if attribute.continuous?
+                    res << (example[i].to_f - attribute.mean) / attribute.se
+                else
+                    attribute.values.each do |value|
+                        res << (example[i] == value ? 1.0 : 0.0)
+                    end
                 end
             end
         end
 
         return res
+    end
+
+    #def ann_normalize(examples, attributes)
+    #    examples_column = examples.transpose
+
+    #    attributes.each_with_index do |attribute, i|
+    #        if attribute.continuous?
+    #            #examples_column[i].fix_unknown!(attribute.mean)
+
+    #            #examples_column[i].map! {|elt| elt.to_f}
+    #            #examples_column[i].normalize!
+    #            #examples_column[i].normalize_by!(attribute.mean, attribute.se)
+    #        else
+    #            #examples_column[i].fix_unknown!
+    #        end
+    #    end
+
+    #    return examples_column.transpose
+    #end
+
+    def classify(example)
+
     end
 end
 

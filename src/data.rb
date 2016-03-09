@@ -104,23 +104,23 @@ class LearningData
         end
     end
 
-    def self.ann_normalize(examples, attributes)
-        examples_column = examples.transpose
+    #def self.ann_normalize(examples, attributes)
+    #    examples_column = examples.transpose
 
-        attributes.each_with_index do |attribute, i|
-            if attribute.continuous?
-                examples_column[i].fix_unknown!(attribute.mean)
+    #    attributes.each_with_index do |attribute, i|
+    #        if attribute.continuous?
+    #            examples_column[i].fix_unknown!(attribute.mean)
 
-                examples_column[i].map! {|elt| elt.to_f}
-                #examples_column[i].normalize!
-                examples_column[i].normalize_by!(attribute.mean, attribute.se)
-            else
-                examples_column[i].fix_unknown!
-            end
-        end
-        
-        return examples_column.transpose
-    end
+    #            examples_column[i].map! {|elt| elt.to_f}
+    #            #examples_column[i].normalize!
+    #            examples_column[i].normalize_by!(attribute.mean, attribute.se)
+    #        else
+    #            examples_column[i].fix_unknown!
+    #        end
+    #    end
+    #    
+    #    return examples_column.transpose
+    #end
 end
 
 class LearningData
