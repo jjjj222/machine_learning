@@ -120,7 +120,7 @@ class ID3Tester < Tester
 
             printer.draw_line "majority classifier", "-"
             #majority_classifier = Majority.new(learning_examples)
-            majority_classifier = Majority.new(learning_examples, @attributes)
+            majority_classifier = Majority.new(learning_examples, @attributes, @setup)
             #no_of_error = majority_classifier.test(test_examples)
             no_of_error = test_all(majority_classifier, test_examples)
             recorder << no_of_error

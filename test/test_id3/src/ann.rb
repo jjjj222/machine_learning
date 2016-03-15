@@ -13,7 +13,7 @@ class ANN
     @@partition_ratio = 3
     #@@partition_ratio = 5
 
-    def initialize(examples, attributes)
+    def initialize(examples, attributes, setup)
         @attributes = attributes
 
         examples.shuffle!(random: Random.new(@@random_seed))
