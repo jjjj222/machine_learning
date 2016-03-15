@@ -1,47 +1,13 @@
-#!/usr/bin/ruby
-
 require 'json'
 
 require "./src/data.rb"
-
-#lines = IO.readlines("tmp/ann.json")
-##lines.dump
-##puts lines
-#parsed = JSON.parse(lines[0])
-##parsed.dump
-##puts parsed.is_a? Array
-#puts parsed
-#
-##$
-$START_TIME = Time.now.strftime "%Y%m%d_%H%M%S"
-#$DUMP_FILE_NAME = __FILE__
-$DUMP_FILE_NAME = "./tmp/ann_#{$START_TIME}.json"
-#puts $DUMP_FILE_NAME
-#exit
+require "./src/tester.rb"
+require "./src/majority.rb"
+require "./src/id3.rb"
 
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-if ARGV.length == 1
-    $num_of_iteration = ARGV[0].to_i
-else
-    #$num_of_iteration = 1000
-    $num_of_iteration = 100
-end
-
-#data_file_name = ARGV[0]
-#attr_file_name = ARGV[1]
-#------------------------------------------------------------------------------
-#   
-#------------------------------------------------------------------------------
-$CASE_NAME = "iris"
-#$CASE_NAME = "example2"
-#case_name = "example2"
-case_name = $CASE_NAME
-file_base_name = "./data/#{case_name}/#{case_name}"
-data_file_name = "#{file_base_name}.data"
-attr_file_name = "#{file_base_name}.attribute"
-
 class ANN
     @@random_seed = 0
     @@partition_ratio = 3
@@ -76,6 +42,7 @@ class ANN
         @width_of_hidden_layer = attributes.size - 1
         @num_of_hidden_layer = 1
         @update_ratio = 0.1
+        @num_of_iteration = 100
 
         @x = initialize_node()
         @sigma = initialize_node()
@@ -85,7 +52,7 @@ class ANN
         min_error = 1000000.0
         best_w = @w.deep_dup
 
-        (1..$num_of_iteration).each do |i|
+        (1..@num_of_iteration).each do |i|
             #examples.each do |example|
             training_examples.each do |example|
                 input, output = example.split_at(@width_of_input)
@@ -98,14 +65,14 @@ class ANN
             error = calculate_all_error(validation_examples)
 
             if (i % 10000 == 0)
-                puts "#{i}"
+                #puts "#{i}"
             end
 
             if min_error > error
                 min_error = error
                 best_i = i
                 best_w = @w.deep_dup
-                puts "#{i}/#{$num_of_iteration} #{min_error}"
+                #puts "#{i}/#{$num_of_iteration} #{min_error}"
             end
 
             if (i > 100000 && i > 2 * best_i)
@@ -120,10 +87,10 @@ class ANN
         #    puts "#{i} : #{output} #{res}"
         #end
 
-        puts
-        puts "best #{best_i} : #{min_error}"
-        best_w.dump
-        puts
+        #puts
+        #puts "best #{best_i} : #{min_error}"
+        #best_w.dump
+        #puts
 
         #@w.dump
         #@dup_w = @w.deep_dup
@@ -138,16 +105,16 @@ class ANN
         #@sigma.dump
         #@w.dump
 
-        hash = Hash.new
-        hash["case_name"] = $CASE_NAME
-        hash["i"] = best_i
-        hash["error"] = min_error
-        hash["w"] = best_w
+        #hash = Hash.new
+        #hash["case_name"] = $CASE_NAME
+        #hash["i"] = best_i
+        #hash["error"] = min_error
+        #hash["w"] = best_w
 
-        File.open($DUMP_FILE_NAME, "w") do |f|
-            #f.write(best_w.to_json)
-            f.write(hash.to_json)
-        end
+        #File.open($DUMP_FILE_NAME, "w") do |f|
+        #    #f.write(best_w.to_json)
+        #    f.write(hash.to_json)
+        #end
 
         #error = calculate_all_error(examples)
         ##error = calculate_error(examples[0])
@@ -260,22 +227,16 @@ class ANN
         return w
     end
 
-    #def map_to_ann(example, attributes)
     def map_to_ann(example)
-        attributes = @attributes
         res = []
 
-        attributes.each_with_index do |attribute, i|
+        @attributes.each_with_index do |attribute, i|
             if (example[i] == "?")
                 if attribute.continuous?
                     res << attribute.mean
                 else
                     value = 1.0 / attribute.values.length
                     res += [value] * attribute.values.length
-                    #puts "QQ"
-                    #attribute.values.length.times do
-                    #    res << value
-                    #end
                 end
             else
                 if attribute.continuous?
@@ -308,11 +269,12 @@ class ANN
 
     #    return examples_column.transpose
     #end
+    #def add_record(record)
+    #    record["QQ"] = 1
+    #end
 
     def classify(example)
         mapped_example = map_to_ann(example)
-
-        #mapped_example.dump
 
         input, output = mapped_example.split_at(@width_of_input)
         #input.dump
@@ -327,32 +289,3 @@ class ANN
         end
     end
 end
-
-class Tester
-    @@random_seed = 0
-    @@test_ratio = 10
-    def initialize(data_file, attr_file)
-        raw_attributes = Attribute.parse_attr_file(attr_file)
-
-        @examples = LearningData.parse_data_file(data_file, raw_attributes.length)
-        @attributes = Attribute.calculate_attributes(@examples, raw_attributes)
-
-        @examples.shuffle!(random: Random.new(@@random_seed))
-
-        @examples_partition = @examples.partition_n_parts(@@test_ratio)
-
-        i = 0
-        learning_examples = @examples_partition.merge_all_but(i)
-        test_examples = @examples_partition[i]
-
-        #ann = ANN.new(@examples, @attributes)
-        ann = ANN.new(learning_examples, @attributes)
-
-        #test_examples.each do |example|
-        #    puts "#{ann.classify(example)} #{example[-1]}"
-        #end
-    end
-end
-
-tester = Tester.new(data_file_name, attr_file_name)
-#tester.cross_validation

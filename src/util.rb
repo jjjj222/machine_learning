@@ -40,7 +40,6 @@ end
 #------------------------------------------------------------------------------
 module Enumerable
     def word_count
-        #hash = Hash.new { |h, k| h[k] = [] }
         hash = Hash.new(0)
         each do |elt|
             hash[elt] += 1
@@ -152,6 +151,13 @@ module Enumerable
     def dump
         if self.empty?
             puts "<empty>"
+        #elsif is_a? Hash
+        #    self.each_with_index do |line, i|
+        #        print "#{i} : "
+        #        print line[0]
+        #        print "#{line[0]} => #{line[1]}"
+        #        puts
+        #    end
         else
             self.each_with_index do |line, i|
                 print "#{i} : "
