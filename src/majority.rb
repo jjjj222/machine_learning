@@ -1,12 +1,10 @@
-require "./src/data.rb"
 require "./src/util.rb"
-require "./src/statistics.rb"
 
 class Majority
     attr_reader :class
 
-    def initialize(examples, attributes, setup)
-        @class = examples.transpose[-1].word_count.max_by { |k, v| v }[0]
+    def initialize(examples, attributes = nil, setup = nil)
+        @class = examples.transpose[-1].majority
     end
 
     def classify(example)

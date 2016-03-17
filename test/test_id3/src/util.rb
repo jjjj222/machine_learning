@@ -46,6 +46,10 @@ module Enumerable
         end
         return hash
     end
+
+    def majority
+        word_count.max_by { |k, v| v }[0]
+    end
 end
 
 module Enumerable

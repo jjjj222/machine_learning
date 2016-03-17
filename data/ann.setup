@@ -1,0 +1,5 @@
+{
+    "min_iteration"     : 10,
+    "max_iteration"     : 100,
+    "update_ratio"      : 0.1
+}

@@ -15,46 +15,36 @@ class ANN
 
     def initialize(examples, attributes, setup)
         @attributes = attributes
+        @setup = setup
 
         examples.shuffle!(random: Random.new(@@random_seed))
 
-        #normalized_examples = ann_normalize(examples, attributes)
-
-        #mapped_examples = normalized_examples.map do |example|
         mapped_examples = examples.map do |example|
-            #map_to_ann(example, attributes)
             map_to_ann(example)
         end
-        #mapped_examples.dump
-        #exit
 
         if (attributes[-1].continuous?)
             puts "TODO: if (attributes[-1].continuous?)"
             exit
         end
 
-        training_examples, validation_examples =
+        @training_examples, @validation_examples =
             mapped_examples.split_by_ratio(@@partition_ratio)
 
 
-        @width_of_output = attributes[-1].values.length
-        @width_of_input = training_examples[0].length - @width_of_output
-        @width_of_hidden_layer = attributes.size - 1
-        @num_of_hidden_layer = 1
-        @update_ratio = 0.1
-        @num_of_iteration = 100
+        init_parameter()
 
         @x = initialize_node()
         @sigma = initialize_node()
         @w = initialize_edge(@x)
 
-        best_i = 0
-        min_error = 1000000.0
+        @best_i = 0
+        @MSE = 1000000.0
         best_w = @w.deep_dup
 
         (1..@num_of_iteration).each do |i|
             #examples.each do |example|
-            training_examples.each do |example|
+            @training_examples.each do |example|
                 input, output = example.split_at(@width_of_input)
                 forward_propagate(input)
                 back_propagation(output)
@@ -62,42 +52,24 @@ class ANN
 
             #error = calculate_all_error(examples)
             #error = calculate_all_error(training_examples)
-            error = calculate_all_error(validation_examples)
+            error = calculate_all_error(@validation_examples)
 
-            if (i % 10000 == 0)
-                #puts "#{i}"
+            if (display?(i))
+                train_error = calculate_all_error(@training_examples)
+                puts "#{i} #{train_error} #{error}"
             end
 
-            if min_error > error
-                min_error = error
-                best_i = i
+            if @MSE > error
+                @MSE = error
+                @best_i = i
                 best_w = @w.deep_dup
                 #puts "#{i}/#{$num_of_iteration} #{min_error}"
             end
 
-            if (i > 100000 && i > 2 * best_i)
-            #if (i > 2 * best_i)
+            if (i > @min_iteration && i > 2 * @best_i)
                 break
             end
         end
-
-        #validation_examples.each_with_index do |example, i|
-        #    input, output = example.split_at(@width_of_input)
-        #    res = forward_propagate(input)
-        #    puts "#{i} : #{output} #{res}"
-        #end
-
-        #puts
-        #puts "best #{best_i} : #{min_error}"
-        #best_w.dump
-        #puts
-
-        #@w.dump
-        #@dup_w = @w.deep_dup
-        #@dup_w[0][0][0] = "QQ"
-        #@dup_w[1][1][1] = "XD"
-        #@dup_w.dump
-
 
         #error = calculate_all_error(examples)
         #puts "#{error}"
@@ -128,6 +100,29 @@ class ANN
         #res = @x[-1]
         #error = calculate_error(examples[0])
         #puts "#{output} #{res} #{error}"
+    end
+
+    def display?(i)
+        if i < 10
+            return true
+        elsif i >= 10 and i < 100
+            return i % 10 == 0
+        elsif i >= 100 and i < 1000
+            return i % 100 == 0
+        end
+        return i % 1000 == 0
+    end
+
+    def init_parameter
+        @width_of_output = @attributes[-1].values.length
+        @width_of_input = @training_examples[0].length - @width_of_output
+        @width_of_hidden_layer = @attributes.size - 1
+        @num_of_hidden_layer = 1
+        #@update_ratio = 0.1
+        @update_ratio = @setup["update_ratio"] ? @setup["update_ratio"] : 0.1
+        #@num_of_iteration = 100
+        @num_of_iteration = @setup["max_iteration"] ? @setup["max_iteration"] : 100
+        @min_iteration = @setup["min_iteration"] ? @setup["min_iteration"] : 1000
     end
 
     def calculate_all_error(examples)
@@ -287,5 +282,12 @@ class ANN
             index = res.index(res.max)
             return @attributes[-1].values[index]
         end
+    end
+
+    def add_record(record)
+        record["train"] = @training_examples.length
+        record["validate"] = @validation_examples.length
+        record["i"] = @best_i
+        record["MSE"] = @MSE.round(2)
     end
 end

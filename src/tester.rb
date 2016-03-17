@@ -27,6 +27,7 @@ class Tester
         if setup_file
             file = File.read(setup_file)
             @setup = JSON.parse(file)
+            #puts @setup
         end
     end
 
@@ -59,37 +60,14 @@ class Tester
 
     def cross_validation(classifier_class)
         all_record = []
+        printer = Printer.new(80)
         (0...@@num_of_round).each do |i|
-            #record = Hash.new
-            #record["round"] = i+1
-
-            #learning_examples = @examples_partition.merge_all_but(i)
-            #test_examples = @examples_partition[i]
-            #record["learn"] = learning_examples.length
-            #record["test"] = test_examples.length
-
-            #classifier = classifier_class.new(learning_examples, @attributes)
-
-            #if classifier.respond_to? :add_record
-            #    classifier.add_record(record)
-            #end
-            ##all_record << record
-            ##test_examples.each do |example|
-            ##    res = classifier.classify(example)
-            ##    print example
-            ##    puts " -> #{res}"
-            ##end
-            ##exit
-            #error = test_all(classifier, test_examples)
-            #record["error"] = error
-            ##puts no_of_error
+            printer.draw_box "round #{i+1}", "="
             record = single_run(classifier_class, i)
             all_record << record
         end
 
-        all_record.each do |record|
-            puts record
-        end
+        return all_record
     end
 
     private

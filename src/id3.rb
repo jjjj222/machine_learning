@@ -226,7 +226,7 @@ class ID3
         @data = LearningData.new(learning_examples)
 
         build
-        if (setup["prune"] != nil and setup["prune"] == false)
+        if (setup and setup["prune"] != nil and setup["prune"] == false)
         else
             prune
         end
@@ -394,6 +394,13 @@ class ID3
 
     def get_leaf_count
         @root.get_leaf_count
+    end
+
+    def add_record(record)
+        record["leaf"] = get_leaf_count
+        record["prune"] = @prune_examples.length
+        record["build"] = record["learn"] - @prune_examples.length
+        #record["learn"] -= @prune_examples.length
     end
     #def test(test_file)
     #    tests = IO.parse_data(test_file)
