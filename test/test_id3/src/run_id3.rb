@@ -19,16 +19,16 @@ if ARGV.length != 2
     exit
 end
 
-#if ARGV[0]  == "-t"
-#    data_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.data"
-#    attr_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.attribute"
-#else
-#    data_file_name = ARGV[0]
-#    attr_file_name = ARGV[1]
-#end
+if ARGV[0]  == "-t"
+    data_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.data"
+    attr_file_name = "./data/#{ARGV[1]}/#{ARGV[1]}.attribute"
+else
+    data_file_name = ARGV[0]
+    attr_file_name = ARGV[1]
+end
 
-data_file_name = ARGV[0]
-attr_file_name = ARGV[1]
+#data_file_name = ARGV[0]
+#attr_file_name = ARGV[1]
 
 #if !File.readable? data_file_name
 #    puts "Error: Can't open data file \"#{data_file_name}\" !!"

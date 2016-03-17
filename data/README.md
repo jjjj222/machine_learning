@@ -3,3 +3,5 @@
 [car](http://archive.ics.uci.edu/ml/datasets/Car+Evaluation)
 [crx](http://archive.ics.uci.edu/ml/datasets/Credit+Approval)
 [mushroom](http://archive.ics.uci.edu/ml/datasets/Mushroom)
+[abalone](http://archive.ics.uci.edu/ml/datasets/Abalone)
+[liver](http://archive.ics.uci.edu/ml/datasets/Liver+Disorders)

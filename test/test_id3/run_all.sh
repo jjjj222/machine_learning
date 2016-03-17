@@ -29,7 +29,7 @@ eval $cp_exec
 eval $cp_src
 
 
-for c in car crx example iris kidney mushroom
+for c in car crx example example2 iris kidney mushroom liver
 do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"

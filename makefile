@@ -7,6 +7,14 @@ run:
 test_id3:
 	@cd ./test/test_id3; ./run_all.sh
 
+.PHONY: update_id3
+update_id3:
+	@cd ./test/test_id3; ./run_all.sh update
+
 .PHONY: test_ann
 test_ann:
 	@cd ./test/test_ann; ./run_all.sh
+
+.PHONY: update_ann
+update_ann:
+	@cd ./test/test_ann; ./run_all.sh update

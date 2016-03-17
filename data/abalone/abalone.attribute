@@ -1,0 +1,9 @@
+Sex,             d
+Length,          c
+Diameter,        c
+Height,          c
+Whole_weight,    c
+Shucked_weight,  c
+Viscera_weight,  c
+Shell_weight,    c
+Class,           d

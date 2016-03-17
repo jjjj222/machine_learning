@@ -1,6 +1,5 @@
 #!/bin/sh -f
 
-#EXEC="./src/id3.rb"
 TOP_DIR="../.."
 EXEC="$TOP_DIR/src/run_ann.rb"
 INCLUDE_DIR="$TOP_DIR/src"
@@ -29,7 +28,9 @@ eval $cp_exec
 eval $cp_src
 
 #for c in example
-for c in example example2 car crx iris kidney mushroom
+#for c in example example2 car crx iris kidney mushroom
+#for c in example example2 iris liver kidney mushroom abalone car crx
+for c in example example2 iris liver kidney abalone crx
 do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"
@@ -46,8 +47,7 @@ do
         eval $run_str
     else
         echo ">>> start $c ..."
-        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE $SETUP_FILE | tee $RESULT_FILE"
-        #run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE $SETUP_FILE > $RESULT_FILE"
+        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE $SETUP_FILE > $RESULT_FILE"
         #run_str="$TEST_EXEC -t $c > $RESULT_FILE"
         #echo $run_str
         eval $run_str
