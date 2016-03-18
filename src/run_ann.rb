@@ -81,10 +81,24 @@ ann_record = tester.cross_validation(ANN)
 #ann_record.dump
 
 printer = Printer.new(80)
-printer.draw_box "summary", "#"
+printer.draw_box("summary", "#")
 printer.draw_hash_table(ann_record)
 
-#printer.draw_box "statistics", "#"
+printer.draw_box "statistics", "#"
+accuracy = ann_record.map do |hash|
+    ( 1.0 - (hash["error"].to_f / hash["test"]) ) * 100
+end
+
+i = ann_record.inject(0.0) do |sum, hash|
+    sum += hash["i"]
+end / ann_record.length
+
+headers = ["", "i", "accuracy", "SE", "95% CI"]
+data = ["ann", i]
+data += accuracy.avg_se_ci_95(2.23)
+#headers.dump
+#data.dump
+printer.draw_table([data], [headers])
 
 #id3_record = tester.cross_validation(ID3)
 #id3_record.dump

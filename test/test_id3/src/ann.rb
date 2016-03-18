@@ -116,13 +116,21 @@ class ANN
     def init_parameter
         @width_of_output = @attributes[-1].values.length
         @width_of_input = @training_examples[0].length - @width_of_output
-        @width_of_hidden_layer = @attributes.size - 1
-        @num_of_hidden_layer = 1
-        #@update_ratio = 0.1
-        @update_ratio = @setup["update_ratio"] ? @setup["update_ratio"] : 0.1
-        #@num_of_iteration = 100
-        @num_of_iteration = @setup["max_iteration"] ? @setup["max_iteration"] : 100
-        @min_iteration = @setup["min_iteration"] ? @setup["min_iteration"] : 1000
+        @width_of_hidden_layer = set_parameter("hidden_layer_width", @attributes.size - 1)
+        @num_of_hidden_layer = set_parameter("hidden_layer", 1)
+        @update_ratio = set_parameter("update_ratio", 0.1)
+        @num_of_iteration = set_parameter("max_iteration", 100)
+        @min_iteration = set_parameter("min_iteration", 10)
+    end
+
+    def set_parameter(setup_name, default)
+        value = @setup[setup_name]
+
+        if value == nil or value == "default"
+            return default
+        else
+            return value
+        end
     end
 
     def calculate_all_error(examples)
@@ -287,7 +295,7 @@ class ANN
 
     def add_record(record)
         record["train"] = @training_examples.length
-        record["validate"] = @validation_examples.length
+        record["valid"] = @validation_examples.length
         record["i"] = @best_i
         record["MSE"] = @MSE.round(6)
     end
