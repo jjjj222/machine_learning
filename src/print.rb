@@ -13,6 +13,12 @@ class Printer
         @width = width
     end
 
+    def draw_hash_table(hashs)
+        header = [hashs[0].keys]
+        data = hashs.map {|hash| hash.values}
+        draw_table(data, header)
+    end
+
     def draw_line(text, c)
         rest = @width - text.length - 2
         rest_left = rest / 2

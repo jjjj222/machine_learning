@@ -22,6 +22,7 @@ echo $rm_exec
 echo $rm_src
 echo $cp_exec
 echo $cp_src
+
 eval $rm_exec
 eval $rm_src
 eval $cp_exec
@@ -30,7 +31,8 @@ eval $cp_src
 #for c in example
 #for c in example example2 car crx iris kidney mushroom
 #for c in example example2 iris liver kidney mushroom abalone car crx
-for c in example example2 iris liver kidney abalone crx
+#for c in example example2 iris liver abalone kidney crx
+for c in iris liver tae crx kidney abalone
 do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"

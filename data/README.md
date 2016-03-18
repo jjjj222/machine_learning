@@ -5,3 +5,4 @@
 [mushroom](http://archive.ics.uci.edu/ml/datasets/Mushroom)
 [abalone](http://archive.ics.uci.edu/ml/datasets/Abalone)
 [liver](http://archive.ics.uci.edu/ml/datasets/Liver+Disorders)
+[tae](http://archive.ics.uci.edu/ml/datasets/Teaching+Assistant+Evaluation)

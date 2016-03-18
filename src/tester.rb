@@ -45,13 +45,7 @@ class Tester
         if classifier.respond_to? :add_record
             classifier.add_record(record)
         end
-        #all_record << record
-        #test_examples.each do |example|
-        #    res = classifier.classify(example)
-        #    print example
-        #    puts " -> #{res}"
-        #end
-        #exit
+
         error = test_all(classifier, test_examples)
         record["error"] = error
         

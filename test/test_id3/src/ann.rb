@@ -128,7 +128,7 @@ class ANN
     def calculate_all_error(examples)
         examples.inject(0.0) do |sum, example|
             sum += calculate_error(example)
-        end
+        end / examples.length
     end
 
     def calculate_error(example)
@@ -140,7 +140,8 @@ class ANN
             sum += (res[i] - output_i) ** 2
         end
 
-        return sum / 2
+        #return sum / 2
+        return sum
     end
 
     def calculate_sigma(output)
@@ -288,6 +289,6 @@ class ANN
         record["train"] = @training_examples.length
         record["validate"] = @validation_examples.length
         record["i"] = @best_i
-        record["MSE"] = @MSE.round(2)
+        record["MSE"] = @MSE.round(6)
     end
 end
