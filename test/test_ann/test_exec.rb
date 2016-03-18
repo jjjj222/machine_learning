@@ -78,8 +78,13 @@ tester = Tester.new(data_file_name, attr_file_name, setup_file_name)
 #record = tester.single_run(ANN)
 #puts record
 ann_record = tester.cross_validation(ANN)
-ann_record.dump
+#ann_record.dump
 
+printer = Printer.new(80)
+printer.draw_box "summary", "#"
+printer.draw_hash_table(ann_record)
+
+#printer.draw_box "statistics", "#"
 
 #id3_record = tester.cross_validation(ID3)
 #id3_record.dump
