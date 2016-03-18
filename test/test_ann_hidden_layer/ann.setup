@@ -1,6 +1,6 @@
 {
-    "min_iteration"         : 10,
-    "max_iteration"         : 10,
+    "min_iteration"         : 100,
+    "max_iteration"         : 10000,
     "update_ratio"          : 0.1,
     "hidden_layer"          : 2,
     "hidden_layer_width"    : 8
