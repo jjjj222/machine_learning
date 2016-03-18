@@ -47,30 +47,6 @@ end
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-#$CASE_NAME = "iris"
-#$CASE_NAME = "example2"
-#case_name = "example2"
-#case_name = "iris"
-
-
-#class ANNTester < Tester
-#    def cross_validation_ann
-#        i = 0
-#        learning_examples = @examples_partition.merge_all_but(i)
-#        test_examples = @examples_partition[i]
-#
-#        #ann = ANN.new(@examples, @attributes)
-#        ann = ANN.new(learning_examples, @attributes)
-#
-#        test_examples.each do |example|
-#            puts "#{ann.classify(example)} #{example[-1]}"
-#        end
-#    end
-#end
-
-#tester = ANNTester.new(data_file_name, attr_file_name)
-#tester.cross_validation_ann
-#tester = Tester.new(data_file_name, attr_file_name)
 tester = Tester.new(data_file_name, attr_file_name, setup_file_name)
 #record = tester.single_run(ANN)
 #puts record
@@ -81,6 +57,9 @@ ann_record = tester.cross_validation(ANN)
 #ann_record.dump
 
 printer = Printer.new(80)
+printer.draw_box("setup", "#")
+tester.print_setup
+
 printer.draw_box("summary", "#")
 printer.draw_hash_table(ann_record)
 

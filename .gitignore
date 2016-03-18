@@ -2,4 +2,6 @@ test/test_id3/src/
 test/test_ann/src/
 test/*/*/*.res
 test/*/*/*.diff
+test/*/src
+test/*/test_exec.rb
 tmp/

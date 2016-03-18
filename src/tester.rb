@@ -27,7 +27,6 @@ class Tester
         if setup_file
             file = File.read(setup_file)
             @setup = JSON.parse(file)
-            #puts @setup
         end
     end
 
@@ -62,6 +61,12 @@ class Tester
         end
 
         return all_record
+    end
+
+    def print_setup
+        @setup.each do |key, value|
+            puts "#{key} : #{value}"
+        end
     end
 
     private
