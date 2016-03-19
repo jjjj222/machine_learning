@@ -50,8 +50,6 @@ class ANN
                 back_propagation(output)
             end
 
-            #error = calculate_all_error(examples)
-            #error = calculate_all_error(training_examples)
             error = calculate_all_error(@validation_examples)
 
             if (display?(i))
@@ -71,35 +69,7 @@ class ANN
             end
         end
 
-        #error = calculate_all_error(examples)
-        #puts "#{error}"
-        #@x.dump
-        #@sigma.dump
-        #@w.dump
-
-        #hash = Hash.new
-        #hash["case_name"] = $CASE_NAME
-        #hash["i"] = best_i
-        #hash["error"] = min_error
-        #hash["w"] = best_w
-
-        #File.open($DUMP_FILE_NAME, "w") do |f|
-        #    #f.write(best_w.to_json)
-        #    f.write(hash.to_json)
-        #end
-
-        #error = calculate_all_error(examples)
-        ##error = calculate_error(examples[0])
-        #puts "#{error}"
-
-
-        #output = examples[0][@width_of_input..-1]
-        ##res = forward_propagate(@x, examples[0][0...@width_of_input])
-        ##forward_propagate(@x, examples[0][0...@width_of_input])
-        #forward_propagate(examples[0][0...@width_of_input])
-        #res = @x[-1]
-        #error = calculate_error(examples[0])
-        #puts "#{output} #{res} #{error}"
+        @w = best_w
     end
 
     def display?(i)
