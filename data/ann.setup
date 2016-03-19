@@ -1,8 +1,8 @@
 {
-    "min_iteration"         : 10,
-    "max_iteration"         : 100,
+    "min_iteration"         : 100,
+    "max_iteration"         : 10000,
     "update_ratio"          : "default",
     "hidden_layer"          : "default",
-    "hidden_layer_width"    : "default"
+    "hidden_layer_width"    : "default",
     "momentum"              : 0.5
 }
