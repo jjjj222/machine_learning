@@ -1,3 +1,4 @@
+[all](http://archive.ics.uci.edu/ml/datasets.html)
 [iris](http://archive.ics.uci.edu/ml/datasets/Iris)
 [kidney](http://archive.ics.uci.edu/ml/datasets/Chronic_Kidney_Disease)
 [car](http://archive.ics.uci.edu/ml/datasets/Car+Evaluation)
@@ -6,3 +7,5 @@
 [abalone](http://archive.ics.uci.edu/ml/datasets/Abalone)
 [liver](http://archive.ics.uci.edu/ml/datasets/Liver+Disorders)
 [tae](http://archive.ics.uci.edu/ml/datasets/Teaching+Assistant+Evaluation)
+[adult](http://archive.ics.uci.edu/ml/datasets/Adult)
+[wine](http://archive.ics.uci.edu/ml/datasets/Wine)

@@ -1,0 +1,15 @@
+age,        c
+workclass,  d
+fnlwgt,     c
+education,  d
+education-num, c
+marital-status, d
+occupation, d
+relationship, d
+race, d
+sex, d
+capital-gain, c
+capital-loss, c
+hours-per-week, c
+native-country, d
+class,  d

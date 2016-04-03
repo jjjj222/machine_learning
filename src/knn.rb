@@ -36,6 +36,7 @@ class KNN
         end.majority
         #puts
         #puts " => #{distances[0][1]}"
+        #distances.dump
         #return distances[0][1]
         return result
     end
