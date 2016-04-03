@@ -1,7 +1,13 @@
 .PHONY: run
 run:
 	@#cd ./test/test_id3; ./run_all.sh
-	@@./run_ann.rb -t iris
+	@./run_knn.rb -t example
+	@#./run_knn.rb -t iris
+
+.PHONY: test_all
+test_all: test_id3 test_ann
+	#@cd ./test/test_id3; ./ruVn_all.sh
+	#@cd ./test/test_ann/test_ann_unit; ./run_all.sh
 
 .PHONY: test_id3
 test_id3:
@@ -13,8 +19,8 @@ update_id3:
 
 .PHONY: test_ann
 test_ann:
-	@cd ./test/test_ann; ./run_all.sh
+	@cd ./test/test_ann/test_ann_unit; ./run_all.sh
 
 .PHONY: update_ann
 update_ann:
-	@cd ./test/test_ann; ./run_all.sh update
+	@cd ./test/test_ann/test_ann_unit; ./run_all.sh update

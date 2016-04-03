@@ -40,6 +40,7 @@ class ANN
 
         @best_i = 0
         @MSE = 1000000.0
+        @delta_w = @w.deep_dup
         best_w = @w.deep_dup
 
         (1..@num_of_iteration).each do |i|
@@ -91,6 +92,7 @@ class ANN
         @update_ratio = set_parameter("update_ratio", 0.1)
         @num_of_iteration = set_parameter("max_iteration", 100)
         @min_iteration = set_parameter("min_iteration", 10)
+        @momentum = set_parameter("momentum", 0.0)
     end
 
     def set_parameter(setup_name, default)
@@ -147,6 +149,8 @@ class ANN
     def back_propagation(output)
         calculate_sigma(output)
 
+        new_delta_w = @delta_w.deep_dup
+
         @w.each_index do |i|
             if i == 0
                 next
@@ -156,10 +160,16 @@ class ANN
 
             @w[i].each_index do |j|
                 @w[i][j].each_index do |k|
-                    @w[i][j][k] += @update_ratio * @sigma[i][j] * x_row_with_1[k]
+                    #@w[i][j][k] += @update_ratio * @sigma[i][j] * x_row_with_1[k]
+                    update_w = @update_ratio * @sigma[i][j] * x_row_with_1[k]
+                    update_w += @momentum * @delta_w[i][j][k]
+                    @w[i][j][k] += update_w
+                    new_delta_w[i][j][k] = update_w
                 end
             end
         end
+
+        @delta_w = new_delta_w
     end
 
     def forward_propagate(example)
