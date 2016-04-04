@@ -169,13 +169,20 @@ module Enumerable
     def dump
         if self.empty?
             puts "<empty>"
-        #elsif is_a? Hash
-        #    self.each_with_index do |line, i|
-        #        print "#{i} : "
-        #        print line[0]
-        #        print "#{line[0]} => #{line[1]}"
-        #        puts
-        #    end
+        elsif is_a? Matrix
+            self.each_with_index do |elt, i, j|
+                if j == 0
+                    print "#{i} : ["
+                end
+
+                print elt
+
+                if j == self.column_size - 1
+                    puts "]"
+                else
+                    print ", "
+                end
+            end
         else
             self.each_with_index do |line, i|
                 print "#{i} : "

@@ -1,3 +1,5 @@
+require 'matrix'
+
 class KNN
     #@@random_seed = 0
     #@@partition_ratio = 3
@@ -15,6 +17,28 @@ class KNN
         if @k == -1
             @k = @examples.length
         end
+
+        x = @examples.map do |example| example[0...-1] end
+
+        #x.dump
+        x = Matrix.rows(x)
+        xt = x.transpose
+
+        xtx = xt * x
+        xtx.dump
+        #eigan = Matrix::EigenvalueDecomposition.new(xtx).eigenvalues()
+        eigan = xtx.eigen.d
+        eigan_v = xtx.eigen.v
+        eigan.dump
+        eigan_v.dump
+        #eigan = xtx.eigenvalues()
+        #eigan.dump
+  #values = @d.dup
+  #@e.each_with_index{|imag, i| values[i] = Complex(values[i], imag) unless imag == 0}
+  #values
+        #print xtx
+        #x.dump
+        #xt.dump
     end
 
     def normalize(example)

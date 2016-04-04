@@ -30,10 +30,10 @@ end
 #   
 #------------------------------------------------------------------------------
 tester = Tester.new(data_file_name, attr_file_name, setup_file_name)
-#record = tester.single_run(KNN)
-#record.dump
-all_record = tester.cross_validation(KNN)
-all_record.dump
+record = tester.single_run(KNN)
+record.dump
+#all_record = tester.cross_validation(KNN)
+#all_record.dump
 ##record = tester.single_run(ANN)
 ##puts record
 ##record.dump

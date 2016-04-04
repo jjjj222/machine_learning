@@ -1,6 +1,6 @@
 .PHONY: run
 run:
-	@./run_knn.rb -t liver
+	@./run_knn.rb -t iris
 
 .PHONY: test_all
 test_all: test_id3 test_ann
