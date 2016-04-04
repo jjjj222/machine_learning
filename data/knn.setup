@@ -1,3 +1,4 @@
 {
-    "k"         : 3
+    "k"                         : 3,
+    "distance-weighting"        : true
 }

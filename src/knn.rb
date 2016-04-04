@@ -10,6 +10,11 @@ class KNN
         end
 
         @k = @setup.get_or_else("k", 1)
+        @is_weighted = @setup.get_or_else("distance-weighting", false)
+
+        if @k == -1
+            @k = @examples.length
+        end
     end
 
     def normalize(example)
@@ -28,12 +33,22 @@ class KNN
 
     def classify(test_example)
         distances = sorted_class(test_example)
+        sub_distances = distances[0...@k]
         #print test_example
         #puts
+        #sub_distances.dump
 
-        result = distances[0...@k].map do |distance|
-            distance[-1]
-        end.majority
+        if @is_weighted
+            hash = Hash.new(0.0)
+            sub_distances.each do |distance|
+                hash[distance[-1]] += (1.0 / (distance[0] ** 2))
+            end
+            return hash.max_by { |k, v| v }[0]
+        else
+          result = sub_distances.map do |distance|
+              distance[-1]
+          end.majority
+        end
         #puts
         #puts " => #{distances[0][1]}"
         #distances.dump

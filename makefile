@@ -3,8 +3,8 @@ run:
 	@#cd ./test/test_id3; ./run_all.sh
 	@#./run_knn.rb -t example
 	@#./run_knn.rb -t example2
-	@./run_knn.rb -t car
-	@#./run_knn.rb -t iris
+	@#./run_knn.rb -t car
+	@./run_knn.rb -t iris
 
 .PHONY: test_all
 test_all: test_id3 test_ann

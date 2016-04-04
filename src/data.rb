@@ -144,6 +144,9 @@ class LearningData
         current_split = split_discrete(attribute)
 
         current_split.each do |key, data|
+            if data.is_a? Array
+              byebug
+            end
             ratio = data.length.to_f / length
             gain -= ratio * data.entropy
         end
