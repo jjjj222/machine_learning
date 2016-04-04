@@ -101,6 +101,13 @@ class LearningData
                 ErrorMsg.file_line(file, line+1, "number of column (#{example.length}) != number of attributes (#{num_of_column})")
                 exit
             end
+
+            example.each_with_index do |field, column|
+                if field == ""
+                    ErrorMsg.file_line(file, line+1, "column #{column+1} is empty")
+                    exit
+                end
+            end
         end
     end
 
@@ -144,9 +151,6 @@ class LearningData
         current_split = split_discrete(attribute)
 
         current_split.each do |key, data|
-            if data.is_a? Array
-              byebug
-            end
             ratio = data.length.to_f / length
             gain -= ratio * data.entropy
         end
@@ -190,6 +194,10 @@ class LearningData
                 sample_array += ([key] * value.length)
             end
             #sample_array.dump
+
+            if sample_array.length == 0
+                sample_array = attribute.values
+            end
 
             rng = Random.new(@@random_seed)
             unknowns.each do |example|
