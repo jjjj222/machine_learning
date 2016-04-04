@@ -29,7 +29,8 @@ eval $cp_exec
 eval $cp_src
 
 
-for c in car crx example example2 iris kidney mushroom liver tae
+#for c in car crx example example2 iris kidney mushroom liver tae
+for c in car crx example example2 iris kidney mushroom liver tae abalone wine adult
 do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"
