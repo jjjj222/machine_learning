@@ -13,32 +13,31 @@ class KNN
 
         @k = @setup.get_or_else("k", 1)
         @is_weighted = @setup.get_or_else("distance-weighting", false)
+        @use_PCA = @setup.get_or_else("PCA", false)
+        @energy_ratio = @setup.get_or_else("PCA-energy-ratio", 0.9)
 
         if @k == -1
             @k = @examples.length
         end
 
-        x = @examples.map do |example| example[0...-1] end
+        if @use_PCA
+            calculate_pca_matrix()
 
-        #x.dump
-        x = Matrix.rows(x)
-        xt = x.transpose
-
-        xtx = xt * x
-        xtx.dump
-        #eigan = Matrix::EigenvalueDecomposition.new(xtx).eigenvalues()
-        eigan = xtx.eigen.d
-        eigan_v = xtx.eigen.v
-        eigan.dump
-        eigan_v.dump
-        #eigan = xtx.eigenvalues()
-        #eigan.dump
-  #values = @d.dup
-  #@e.each_with_index{|imag, i| values[i] = Complex(values[i], imag) unless imag == 0}
-  #values
-        #print xtx
-        #x.dump
-        #xt.dump
+            @examples = @examples.map do |example|
+                transform(example)
+                #print example
+                #puts
+                #new_example = example[0...-1]
+                #new_example = Matrix.rows([example[0...-1]])
+                #print new_example
+                #puts
+                #new_example = new_example * @w
+                #new_example = new_example.to_a[0] + [example[-1]]
+                #print new_example
+                #puts
+            end
+            #@examples.dump
+        end
     end
 
     def normalize(example)
@@ -55,7 +54,72 @@ class KNN
         return res
     end
 
+    def transform(example)
+        #print example
+        #puts
+        #new_example = example[0...-1]
+        new_example = Matrix.rows([example[0...-1]])
+        #print new_example
+        #puts
+        new_example = new_example * @w
+        new_example = new_example.to_a[0] + [example[-1]]
+        #print new_example
+        #puts
+        return new_example
+    end
+
+    def calculate_pca_matrix
+        x_raw = @examples.map do |example| example[0...-1] end
+
+        x = Matrix.rows(x_raw)
+        xtx = x.transpose * x
+
+        eigenvalues = xtx.eigen.eigenvalues()
+        eigenvectors = xtx.eigen.eigenvectors()
+
+        value_vectors = []
+        eigenvalues.each_with_index do |value, i|
+            value_vectors << [value, eigenvectors[i]]
+        end
+
+        #value_vectors.dump
+        value_vectors = value_vectors.sort_by {|value_vector| value_vector[0] * -1}
+        #value_vectors.dump
+
+        #vectors.dump
+        values = value_vectors.map {|value_vector| value_vector[0]}
+
+
+        energy_d = values.inject(0.0) {|sum, elt| sum += elt}
+        #puts energy_d
+        sum = 0.0
+        k = 0
+        values.each_with_index do |value, i|
+            sum += value
+            if sum > energy_d * 0.9
+                k = i
+                break
+            end
+        end
+        #puts k
+        #values.dump
+
+        vectors = value_vectors.map {|value_vector| value_vector[1]}
+        vectors = vectors[0..k]
+        @w = Matrix.columns(vectors)
+        #@w.dump
+        #values.dump
+        #return w
+        #puts vectors.length
+    end
+
     def classify(test_example)
+        test_example = normalize(test_example)
+
+        if @use_PCA
+            test_example = transform(test_example)
+        end
+
         distances = sorted_class(test_example)
         sub_distances = distances[0...@k]
         #print test_example
@@ -81,7 +145,6 @@ class KNN
     end
 
     def sorted_class(test_example)
-        test_example = normalize(test_example)
         distances = @examples.map do |example|
             [distance(example, test_example), example[-1]]
         end.sort_by do |distance|
