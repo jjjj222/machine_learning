@@ -9,3 +9,4 @@
 [tae](http://archive.ics.uci.edu/ml/datasets/Teaching+Assistant+Evaluation)
 [adult](http://archive.ics.uci.edu/ml/datasets/Adult)
 [wine](http://archive.ics.uci.edu/ml/datasets/Wine)
+[breast](http://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29)
