@@ -1,6 +1,6 @@
 #!/bin/sh -f
 
-TOP_DIR="../.."
+TOP_DIR="../../.."
 EXEC="$TOP_DIR/src/run_ann.rb"
 INCLUDE_DIR="$TOP_DIR/src"
 DATA_DIR="$TOP_DIR/data"
@@ -33,11 +33,12 @@ eval $cp_src
 #for c in example example2 iris liver kidney mushroom abalone car crx
 #for c in example example2 iris liver abalone kidney crx
 #for c in tae abalone
-for c in iris liver tae crx kidney
+#for c in iris liver tae crx kidney
+for c in car crx example example2 iris kidney mushroom liver tae abalone wine adult
 do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"
-    SETUP_FILE="$DATA_DIR/$c/$c.setup.ann"
+    SETUP_FILE="$TEST_DIR/ann.setup"
 
     RESULT_DIR="$TEST_DIR/$c"
     RESULT_FILE="$RESULT_DIR/$c.res"
