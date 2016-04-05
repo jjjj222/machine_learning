@@ -1,6 +1,6 @@
 {
     "k"                         : 5,
-    "distance-weighting"        : false,
-    "PCA"                       : true,
+    "distance-weighting"        : true,
+    "PCA"                       : false,
     "PCA-energy-ratio"          : 0.9
 }

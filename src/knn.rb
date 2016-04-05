@@ -108,7 +108,8 @@ class KNN
         vectors = vectors[0..k]
         @w = Matrix.columns(vectors)
         #@w.dump
-        #values.dump
+        puts "selected eigenvectors:"
+        vectors.dump
         #return w
         #puts vectors.length
     end

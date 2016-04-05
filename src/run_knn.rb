@@ -33,38 +33,38 @@ tester = Tester.new(data_file_name, attr_file_name, setup_file_name)
 #record = tester.single_run(KNN)
 #record.dump
 all_record = tester.cross_validation(KNN)
-all_record.dump
+#all_record.dump
 ##record = tester.single_run(ANN)
 ##puts record
 ##record.dump
 ##puts record
-#
-#printer = Printer.new(80)
-#printer.draw_box("setup", "#")
-#tester.print_setup
-#
-#printer.draw_box("summary", "#")
-#printer.draw_hash_table(ann_record)
-#
-#printer.draw_box "statistics", "#"
-#accuracy = ann_record.map do |hash|
-#    ( 1.0 - (hash["error"].to_f / hash["test"]) ) * 100
-#end
-#
-#i = ann_record.inject(0.0) do |sum, hash|
+
+printer = Printer.new(80)
+printer.draw_box("setup", "#")
+tester.print_setup
+
+printer.draw_box("summary", "#")
+printer.draw_hash_table(all_record)
+
+printer.draw_box "statistics", "#"
+accuracy = all_record.map do |hash|
+    ( 1.0 - (hash["error"].to_f / hash["test"]) ) * 100
+end
+
+#i = all_record.inject(0.0) do |sum, hash|
 #    sum += hash["i"]
-#end / ann_record.length
-#
-#headers = ["", "i", "accuracy", "SE", "95% CI"]
-#data = ["ann", i]
-#data += accuracy.avg_se_ci_95(2.23)
-##headers.dump
-##data.dump
-#printer.draw_table([data], [headers])
-#
-##id3_record = tester.cross_validation(ID3)
-##id3_record.dump
-#
-##majority_record = tester.cross_validation(Majority)
-##majority_record.dump
+#end / all_record.length
+
+headers = ["", "accuracy", "SE", "95% CI"]
+data = ["knn"]
+data += accuracy.avg_se_ci_95(2.23)
+#headers.dump
+#data.dump
+printer.draw_table([data], [headers])
+
+#id3_record = tester.cross_validation(ID3)
+#id3_record.dump
+
+#majority_record = tester.cross_validation(Majority)
+#majority_record.dump
 #
