@@ -61,8 +61,8 @@ do
             eval "mkdir $RESULT_DIR"
         fi
 
-        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE > $RESULT_FILE"
-        echo $run_str
+        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE $SETUP_FILE > $RESULT_FILE"
+        #echo $run_str
         eval $run_str
 
         diff $OUT_FILE $RESULT_FILE > $DIFF_FILE
