@@ -20,23 +20,17 @@ class KNN
             @k = @examples.length
         end
 
+        if @use_PCA and @attributes.detect {|attribute| !attribute.continuous?}
+            @use_PCA = false
+            puts "Note: PCA is off due to non-continuous attributes"
+        end
+
         if @use_PCA
             calculate_pca_matrix()
 
             @examples = @examples.map do |example|
                 transform(example)
-                #print example
-                #puts
-                #new_example = example[0...-1]
-                #new_example = Matrix.rows([example[0...-1]])
-                #print new_example
-                #puts
-                #new_example = new_example * @w
-                #new_example = new_example.to_a[0] + [example[-1]]
-                #print new_example
-                #puts
             end
-            #@examples.dump
         end
     end
 
@@ -107,11 +101,9 @@ class KNN
         vectors = value_vectors.map {|value_vector| value_vector[1]}
         vectors = vectors[0..k]
         @w = Matrix.columns(vectors)
-        #@w.dump
+
         puts "selected eigenvectors:"
         vectors.dump
-        #return w
-        #puts vectors.length
     end
 
     def classify(test_example)
