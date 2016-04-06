@@ -34,7 +34,8 @@ eval $cp_src
 #for c in example example2 iris liver abalone kidney crx
 #for c in tae abalone
 #for c in iris liver tae crx kidney
-for c in car crx example example2 iris kidney mushroom liver tae abalone wine adult
+#for c in car crx example example2 iris kidney mushroom liver tae abalone wine adult
+for c in example example2 iris wine crx kidney liver tae car abalone adult mushroom
 do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"
