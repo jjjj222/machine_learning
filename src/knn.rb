@@ -1,7 +1,7 @@
 require 'matrix'
 
 class KNN
-    #@@random_seed = 0
+    @@random_seed = 0
     #@@partition_ratio = 3
 
     def initialize(examples, attributes, setup)
@@ -15,9 +15,15 @@ class KNN
         @is_weighted = @setup.get_or_else("distance-weighting", false)
         @use_PCA = @setup.get_or_else("PCA", false)
         @energy_ratio = @setup.get_or_else("PCA-energy-ratio", 0.9)
+        @use_ntgrowth = @setup.get_or_else("NTGrowth", false)
+        @nt_drop_ratio = @setup.get_or_else("NTGrowth-drop-ratio", 0.75)
 
         if @k == -1
             @k = @examples.length
+        end
+
+        if @use_ntgrowth
+            nt_growth()
         end
 
         if @use_PCA and @attributes.detect {|attribute| !attribute.continuous?}
@@ -60,6 +66,58 @@ class KNN
         #print new_example
         #puts
         return new_example
+    end
+
+    def nt_growth
+        old_examples = @examples.shuffle!(random: Random.new(@@random_seed))
+        @examples = []
+        nt_records = []
+
+        old_examples.each do |example|
+            if @examples.empty?
+                @examples << example
+                nt_records << [0, 0]
+                next
+            end
+
+            nearest = sorted_examples_with_distances(example)[0][1]
+            i = @examples.find_index(nearest)
+            nt_records[i][1] += 1
+
+            if (nearest[-1] != example[-1])
+                @examples << example
+                nt_records << [0, 0]
+            else
+                nt_records[i][0] += 1
+            end
+        end
+
+        #@examples.each_with_index do |example, i|
+        #    print "#{i} : "
+        #    print example
+        #    print " => #{nt_records[i]}"
+        #    puts
+        #end
+
+        new_examples = []
+        new_nt_records = []
+        @examples.each_with_index do |example, i|
+            accuracy = nt_records[i][0].to_f / nt_records[i][1].to_f
+            if (accuracy >= @nt_drop_ratio)
+                new_examples << example
+                new_nt_records << nt_records[i]
+            end
+        end
+
+        @examples = new_examples
+
+        nt_records = new_nt_records
+        @examples.each_with_index do |example, i|
+            print "#{i} : "
+            print example
+            print " => #{nt_records[i]}"
+            puts
+        end
     end
 
     def calculate_pca_matrix
@@ -113,8 +171,8 @@ class KNN
             test_example = transform(test_example)
         end
 
-        distances = sorted_class(test_example)
-        sub_distances = distances[0...@k]
+        e_with_d = sorted_examples_with_distances(test_example)
+        sub_distances = e_with_d[0...@k]
         #print test_example
         #puts
         #sub_distances.dump
@@ -127,7 +185,7 @@ class KNN
             return hash.max_by { |k, v| v }[0]
         else
           result = sub_distances.map do |distance|
-              distance[-1]
+              distance[1][-1]
           end.majority
         end
         #puts
@@ -137,11 +195,11 @@ class KNN
         return result
     end
 
-    def sorted_class(test_example)
-        distances = @examples.map do |example|
-            [distance(example, test_example), example[-1]]
-        end.sort_by do |distance|
-            distance[0]
+    def sorted_examples_with_distances(test_example)
+        examples_with_distances = @examples.map do |example|
+            [distance(example, test_example), example]
+        end.sort_by do |example_with_distance|
+            example_with_distance[0]
         end
     end
 
@@ -157,5 +215,9 @@ class KNN
             end
         end
         Math.sqrt(sum)
+    end
+
+    def add_record(record)
+        record["NTGrowth"] = @examples.length
     end
 end

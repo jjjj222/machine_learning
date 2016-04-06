@@ -1,6 +1,8 @@
 {
     "k"                         : 1,
     "distance-weighting"        : false,
-    "PCA"                       : true,
-    "PCA-energy-ratio"          : 0.9
+    "PCA"                       : false,
+    "PCA-energy-ratio"          : 0.9,
+    "NTGrowth"                  : true,
+    "NTGrowth-drop-ratio"       : 0.75
 }
