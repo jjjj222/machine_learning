@@ -218,6 +218,8 @@ class KNN
     end
 
     def add_record(record)
-        record["NTGrowth"] = @examples.length
+        if @use_ntgrowth
+            record["NTGrowth"] = @examples.length
+        end
     end
 end
