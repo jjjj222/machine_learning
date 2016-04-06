@@ -1,0 +1,1 @@
+/home/grads/j/jjjj222/machine_learning/test/test_knn/run_all.sh
