@@ -26,7 +26,7 @@ class KNN
             nt_growth()
         end
 
-        if @use_PCA and @attributes.detect {|attribute| !attribute.continuous?}
+        if @use_PCA and @attributes[0...-1].detect {|attribute| !attribute.continuous?}
             @use_PCA = false
             puts "Note: PCA is off due to non-continuous attributes"
         end
