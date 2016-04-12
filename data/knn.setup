@@ -1,7 +1,7 @@
 {
-    "k"                         : 1,
-    "distance-weighting"        : false,
-    "PCA"                       : true,
+    "k"                         : -1,
+    "distance-weighting"        : true,
+    "PCA"                       : false,
     "PCA-energy-ratio"          : 0.9,
     "NTGrowth"                  : false,
     "NTGrowth-drop-ratio"       : 0.75

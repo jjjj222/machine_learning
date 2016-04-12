@@ -1,4 +1,5 @@
 require 'matrix'
+#require 'byebug'
 
 class KNN
     @@random_seed = 0
@@ -165,6 +166,7 @@ class KNN
     end
 
     def classify(test_example)
+        #byebug
         test_example = normalize(test_example)
 
         if @use_PCA
@@ -180,7 +182,7 @@ class KNN
         if @is_weighted
             hash = Hash.new(0.0)
             sub_distances.each do |distance|
-                hash[distance[-1]] += (1.0 / (distance[0] ** 2))
+                hash[distance[1][-1]] += (1.0 / (distance[0] ** 2))
             end
             return hash.max_by { |k, v| v }[0]
         else
