@@ -169,20 +169,20 @@ module Enumerable
     def dump
         if self.empty?
             puts "<empty>"
-        elsif is_a? Matrix
-            self.each_with_index do |elt, i, j|
-                if j == 0
-                    print "#{i} : ["
-                end
+        #elsif is_a? Matrix
+        #    self.each_with_index do |elt, i, j|
+        #        if j == 0
+        #            print "#{i} : ["
+        #        end
 
-                print elt
+        #        print elt
 
-                if j == self.column_size - 1
-                    puts "]"
-                else
-                    print ", "
-                end
-            end
+        #        if j == self.column_size - 1
+        #            puts "]"
+        #        else
+        #            print ", "
+        #        end
+        #    end
         else
             self.each_with_index do |line, i|
                 print "#{i} : "
@@ -215,6 +215,19 @@ class IO
 
         data = lines.map do |line|
             line.rstrip.gsub(/\s+/, "").split(",")
+        end
+        return data
+    end
+
+    def self.parse_tmp(file)
+        lines = IO.readlines(file)
+        data = []
+        lines.each do |line|
+            line.rstrip!
+            if line.empty? or line[0] == "#"
+                next
+            end
+            data << line.rstrip.split(" ")
         end
         return data
     end

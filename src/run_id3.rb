@@ -176,20 +176,22 @@ class ID3Tester < Tester
     end
 
     def get_statistics(data)
-        avg, se = data.mean_se
-
         tNv = 2.23
-        interval_low = avg - se * tNv
-        interval_low = 0.0 if interval_low < 0.0
-        #puts interval_low
-        interval_up = avg + se * tNv
-        interval_up = 100.0 if interval_up > 100.0
-        #puts interval_up
-        #interval = "(#{get_print_format(interval_low)}, #{get_print_format(interval_up)})"
-        interval = "(#{interval_low.round(1)}, #{interval_up.round(1)})"
-        #puts interval
-        #return [get_print_format(avg), get_print_format(se), interval]
-        return [avg.round(1), se.round(1), interval]
+        return data.avg_se_ci_95(tNv)
+        #avg, se = data.mean_sd
+
+        #tNv = 2.23
+        #interval_low = avg - se * tNv
+        #interval_low = 0.0 if interval_low < 0.0
+        ##puts interval_low
+        #interval_up = avg + se * tNv
+        #interval_up = 100.0 if interval_up > 100.0
+        ##puts interval_up
+        ##interval = "(#{get_print_format(interval_low)}, #{get_print_format(interval_up)})"
+        #interval = "(#{interval_low.round(1)}, #{interval_up.round(1)})"
+        ##puts interval
+        ##return [get_print_format(avg), get_print_format(se), interval]
+        #return [avg.round(1), se.round(1), interval]
     end
 
     #def get_print_format(data)

@@ -66,10 +66,7 @@ class Attribute
     def calculate_statistics(values)
         values.select! {|value| value != "?"}
         values.map! {|value| value.to_f }
-        #values.dump
-        #@values = values.mean_se
-        #@values = values.minmax + values.mean_se
-        @values = values.minmax + values.mean_se
+        @values = values.minmax + values.mean_sd
     end
 
     def continuous?
