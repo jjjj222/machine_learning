@@ -192,6 +192,14 @@ module Enumerable
         end
     end
 
+    def dump_data
+        self.each do |line|
+            puts line.join(",")
+            #line.each_with_index do |value|
+
+            #end
+        end
+    end
     #def dump_indent(indent)
     #    self.each_with_index do |line, i|
     #        print "#{indent}#{i} : "

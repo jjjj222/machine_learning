@@ -88,7 +88,8 @@ class ANN
     def init_parameter
         @width_of_output = @attributes[-1].values.length
         @width_of_input = @training_examples[0].length - @width_of_output
-        @width_of_hidden_layer = set_parameter("hidden_layer_width", @attributes.size - 1)
+        #@width_of_hidden_layer = set_parameter("hidden_layer_width", @attributes.size - 1)
+        @width_of_hidden_layer = set_parameter("hidden_layer_width", @attributes.size / 2)
         @num_of_hidden_layer = set_parameter("hidden_layer", 1)
         @update_ratio = set_parameter("update_ratio", 0.1)
         #@num_of_iteration = set_parameter("max_iteration", 100)

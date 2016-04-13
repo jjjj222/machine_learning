@@ -1,11 +1,11 @@
 #!/bin/sh -f
 
-TOP_DIR="../.."
+TOP_DIR="../../.."
 
 #------------------------------------------------------------------------------
 #   
 #------------------------------------------------------------------------------
-EXEC="$TOP_DIR/src/run_id3.rb"
+EXEC="$TOP_DIR/src/run_ann.rb"
 INCLUDE_DIR="$TOP_DIR/src"
 DATA_DIR="$TOP_DIR/data"
 
@@ -47,7 +47,7 @@ do
     DATA_FILE="$DATA_DIR/$c/$c.data"
     ATTR_FILE="$DATA_DIR/$c/$c.attribute"
     #SETUP_FILE="$DATA_DIR/$c/$c.knn.setup"
-    #SETUP_FILE="$TEST_DIR/knn.setup"
+    SETUP_FILE="$TEST_DIR/ann.setup"
 
     RESULT_DIR="$TEST_DIR/$c"
     RESULT_FILE="$RESULT_DIR/$c.res"
@@ -64,8 +64,7 @@ do
             eval "mkdir $RESULT_DIR"
         fi
 
-        #run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE $SETUP_FILE > $RESULT_FILE"
-        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE > $RESULT_FILE"
+        run_str="$TEST_EXEC $DATA_FILE $ATTR_FILE $SETUP_FILE > $RESULT_FILE"
         #echo $run_str
         eval $run_str
 
