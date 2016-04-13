@@ -1,0 +1,550 @@
+================================================================================
+=                                   round 1                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (12 leaves)
+ `- root [113 M, 229 B]
+     |- worst_perimeter=[, 117.9) [21 M, 229 B]
+     |   |- worst_concave=[, 0.11125) [2 M, 198 B]
+     |   |   |- se_smoothness=[, 0.002832), class=M [1 M, 0 B]
+     |   |   `- se_smoothness=[0.002832, ) [1 M, 198 B]
+     |   |       |- se_area=[, 48.7), class=B [0 M, 196 B]
+     |   |       `- se_area=[48.7, ) [1 M, 2 B]
+     |   |           |- mean_radius=[, 12.265), class=M [1 M, 0 B]
+     |   |           `- mean_radius=[12.265, ), class=B [0 M, 2 B]
+     |   `- worst_concave=[0.11125, ) [19 M, 31 B]
+     |       |- worst_texture=[, 27.645) [4 M, 25 B]
+     |       |   |- worst_concave=[, 0.17925) [2 M, 25 B]
+     |       |   |   |- worst_radius=[, 16.32), class=B [0 M, 19 B]
+     |       |   |   `- worst_radius=[16.32, ) [2 M, 6 B]
+     |       |   |       |- mean_radius=[, 14.08), class=M [2 M, 0 B]
+     |       |   |       `- mean_radius=[14.08, ), class=B [0 M, 6 B]
+     |       |   `- worst_concave=[0.17925, ), class=M [2 M, 0 B]
+     |       `- worst_texture=[27.645, ) [15 M, 6 B]
+     |           |- mean_concavity=[, 0.07278) [3 M, 6 B]
+     |           |   |- worst_radius=[, 16.825000000000003), class=B [0 M, 6 B]
+     |           |   `- worst_radius=[16.825000000000003, ), class=M [3 M, 0 B]
+     |           `- mean_concavity=[0.07278, ), class=M [12 M, 0 B]
+     `- worst_perimeter=[117.9, ), class=M [92 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (9 leaves)
+ `- root [113 M, 229 B]
+     |- worst_perimeter=[, 117.9) [21 M, 229 B]
+     |   |- worst_concave=[, 0.11125), class=B [2 M, 198 B]
+     |   `- worst_concave=[0.11125, ) [19 M, 31 B]
+     |       |- worst_texture=[, 27.645) [4 M, 25 B]
+     |       |   |- worst_concave=[, 0.17925) [2 M, 25 B]
+     |       |   |   |- worst_radius=[, 16.32), class=B [0 M, 19 B]
+     |       |   |   `- worst_radius=[16.32, ) [2 M, 6 B]
+     |       |   |       |- mean_radius=[, 14.08), class=M [2 M, 0 B]
+     |       |   |       `- mean_radius=[14.08, ), class=B [0 M, 6 B]
+     |       |   `- worst_concave=[0.17925, ), class=M [2 M, 0 B]
+     |       `- worst_texture=[27.645, ) [15 M, 6 B]
+     |           |- mean_concavity=[, 0.07278) [3 M, 6 B]
+     |           |   |- worst_radius=[, 16.825000000000003), class=B [0 M, 6 B]
+     |           |   `- worst_radius=[16.825000000000003, ), class=M [3 M, 0 B]
+     |           `- mean_concavity=[0.07278, ), class=M [12 M, 0 B]
+     `- worst_perimeter=[117.9, ), class=M [92 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 25
+error rate = 0.43859649122807015
+Majority (class = B)
+================================================================================
+=                                   round 2                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 7
+error rate = 0.12280701754385964
+ID3 (12 leaves)
+ `- root [119 M, 223 B]
+     |- worst_perimeter=[, 106.1) [7 M, 207 B]
+     |   |- mean_concavity=[, 0.14185) [2 M, 206 B]
+     |   |   |- se_area=[, 34.405), class=B [0 M, 194 B]
+     |   |   `- se_area=[34.405, ) [2 M, 12 B]
+     |   |       |- se_symmetry=[, 0.019625) [2 M, 2 B]
+     |   |       |   |- mean_radius=[, 12.805), class=M [2 M, 0 B]
+     |   |       |   `- mean_radius=[12.805, ), class=B [0 M, 2 B]
+     |   |       `- se_symmetry=[0.019625, ), class=B [0 M, 10 B]
+     |   `- mean_concavity=[0.14185, ) [5 M, 1 B]
+     |       |- mean_radius=[, 10.4055), class=B [0 M, 1 B]
+     |       `- mean_radius=[10.4055, ), class=M [5 M, 0 B]
+     `- worst_perimeter=[106.1, ) [112 M, 16 B]
+         |- mean_concave=[, 0.048865) [8 M, 14 B]
+         |   |- worst_texture=[, 27.645000000000003), class=B [0 M, 12 B]
+         |   `- worst_texture=[27.645000000000003, ) [8 M, 2 B]
+         |       |- se_concave=[, 0.010940499999999999), class=M [8 M, 0 B]
+         |       `- se_concave=[0.010940499999999999, ), class=B [0 M, 2 B]
+         `- mean_concave=[0.048865, ) [104 M, 2 B]
+             |- mean_texture=[, 14.120000000000001) [2 M, 2 B]
+             |   |- mean_smoothness=[, 0.11135), class=B [0 M, 2 B]
+             |   `- mean_smoothness=[0.11135, ), class=M [2 M, 0 B]
+             `- mean_texture=[14.120000000000001, ), class=M [102 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 6
+error rate = 0.10526315789473684
+ID3 (5 leaves)
+ `- root [119 M, 223 B]
+     |- worst_perimeter=[, 106.1), class=B [7 M, 207 B]
+     `- worst_perimeter=[106.1, ) [112 M, 16 B]
+         |- mean_concave=[, 0.048865) [8 M, 14 B]
+         |   |- worst_texture=[, 27.645000000000003), class=B [0 M, 12 B]
+         |   `- worst_texture=[27.645000000000003, ) [8 M, 2 B]
+         |       |- se_concave=[, 0.010940499999999999), class=M [8 M, 0 B]
+         |       `- se_concave=[0.010940499999999999, ), class=B [0 M, 2 B]
+         `- mean_concave=[0.048865, ), class=M [104 M, 2 B]
+----------------------------- majority classifier ------------------------------
+# of error = 20
+error rate = 0.3508771929824561
+Majority (class = B)
+================================================================================
+=                                   round 3                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 6
+error rate = 0.10526315789473684
+ID3 (12 leaves)
+ `- root [120 M, 222 B]
+     |- worst_area=[, 884.55) [16 M, 219 B]
+     |   |- worst_concave=[, 0.12229999999999999) [1 M, 201 B]
+     |   |   |- se_radius=[, 0.62555), class=B [0 M, 199 B]
+     |   |   `- se_radius=[0.62555, ) [1 M, 2 B]
+     |   |       |- mean_texture=[, 18.630000000000003), class=M [1 M, 0 B]
+     |   |       `- mean_texture=[18.630000000000003, ), class=B [0 M, 2 B]
+     |   `- worst_concave=[0.12229999999999999, ) [15 M, 18 B]
+     |       |- worst_texture=[, 28.255000000000003) [5 M, 17 B]
+     |       |   |- mean_concave=[, 0.07200999999999999) [2 M, 17 B]
+     |       |   |   |- worst_fractal_dimension=[, 0.1023), class=B [0 M, 14 B]
+     |       |   |   `- worst_fractal_dimension=[0.1023, ) [2 M, 3 B]
+     |       |   |       |- mean_radius=[, 13.52), class=B [0 M, 3 B]
+     |       |   |       `- mean_radius=[13.52, ), class=M [2 M, 0 B]
+     |       |   `- mean_concave=[0.07200999999999999, ), class=M [3 M, 0 B]
+     |       `- worst_texture=[28.255000000000003, ) [10 M, 1 B]
+     |           |- mean_smoothness=[, 0.1226), class=M [10 M, 0 B]
+     |           `- mean_smoothness=[0.1226, ), class=B [0 M, 1 B]
+     `- worst_area=[884.55, ) [104 M, 3 B]
+         |- mean_concavity=[, 0.06421) [3 M, 3 B]
+         |   |- mean_texture=[, 18.835), class=B [0 M, 3 B]
+         |   `- mean_texture=[18.835, ), class=M [3 M, 0 B]
+         `- mean_concavity=[0.06421, ), class=M [101 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 6
+error rate = 0.10526315789473684
+ID3 (10 leaves)
+ `- root [120 M, 222 B]
+     |- worst_area=[, 884.55) [16 M, 219 B]
+     |   |- worst_concave=[, 0.12229999999999999), class=B [1 M, 201 B]
+     |   `- worst_concave=[0.12229999999999999, ) [15 M, 18 B]
+     |       |- worst_texture=[, 28.255000000000003) [5 M, 17 B]
+     |       |   |- mean_concave=[, 0.07200999999999999) [2 M, 17 B]
+     |       |   |   |- worst_fractal_dimension=[, 0.1023), class=B [0 M, 14 B]
+     |       |   |   `- worst_fractal_dimension=[0.1023, ) [2 M, 3 B]
+     |       |   |       |- mean_radius=[, 13.52), class=B [0 M, 3 B]
+     |       |   |       `- mean_radius=[13.52, ), class=M [2 M, 0 B]
+     |       |   `- mean_concave=[0.07200999999999999, ), class=M [3 M, 0 B]
+     |       `- worst_texture=[28.255000000000003, ) [10 M, 1 B]
+     |           |- mean_smoothness=[, 0.1226), class=M [10 M, 0 B]
+     |           `- mean_smoothness=[0.1226, ), class=B [0 M, 1 B]
+     `- worst_area=[884.55, ) [104 M, 3 B]
+         |- mean_concavity=[, 0.06421) [3 M, 3 B]
+         |   |- mean_texture=[, 18.835), class=B [0 M, 3 B]
+         |   `- mean_texture=[18.835, ), class=M [3 M, 0 B]
+         `- mean_concavity=[0.06421, ), class=M [101 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 21
+error rate = 0.3684210526315789
+Majority (class = B)
+================================================================================
+=                                   round 4                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 3
+error rate = 0.05263157894736842
+ID3 (12 leaves)
+ `- root [123 M, 219 B]
+     |- worst_perimeter=[, 106.1) [8 M, 201 B]
+     |   |- worst_concave=[, 0.18075) [4 M, 201 B]
+     |   |   |- mean_concave=[, 0.026805000000000002), class=B [0 M, 137 B]
+     |   |   `- mean_concave=[0.026805000000000002, ) [4 M, 64 B]
+     |   |       |- worst_texture=[, 23.29), class=B [0 M, 42 B]
+     |   |       `- worst_texture=[23.29, ) [4 M, 22 B]
+     |   |           |- mean_compactness=[, 0.059539999999999996), class=M [2 M, 0 B]
+     |   |           `- mean_compactness=[0.059539999999999996, ) [2 M, 22 B]
+     |   |               |- worst_concavity=[, 0.3836), class=B [0 M, 22 B]
+     |   |               `- worst_concavity=[0.3836, ), class=M [2 M, 0 B]
+     |   `- worst_concave=[0.18075, ), class=M [4 M, 0 B]
+     `- worst_perimeter=[106.1, ) [115 M, 18 B]
+         |- worst_perimeter=[, 117.45) [20 M, 18 B]
+         |   |- worst_texture=[, 20.355), class=B [0 M, 11 B]
+         |   `- worst_texture=[20.355, ) [20 M, 7 B]
+         |       |- mean_concave=[, 0.048865) [6 M, 7 B]
+         |       |   |- se_compactness=[, 0.017175) [6 M, 1 B]
+         |       |   |   |- mean_concavity=[, 0.04157), class=B [0 M, 1 B]
+         |       |   |   `- mean_concavity=[0.04157, ), class=M [6 M, 0 B]
+         |       |   `- se_compactness=[0.017175, ), class=B [0 M, 6 B]
+         |       `- mean_concave=[0.048865, ), class=M [14 M, 0 B]
+         `- worst_perimeter=[117.45, ), class=M [95 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (7 leaves)
+ `- root [123 M, 219 B]
+     |- worst_perimeter=[, 106.1), class=B [8 M, 201 B]
+     `- worst_perimeter=[106.1, ) [115 M, 18 B]
+         |- worst_perimeter=[, 117.45) [20 M, 18 B]
+         |   |- worst_texture=[, 20.355), class=B [0 M, 11 B]
+         |   `- worst_texture=[20.355, ) [20 M, 7 B]
+         |       |- mean_concave=[, 0.048865) [6 M, 7 B]
+         |       |   |- se_compactness=[, 0.017175) [6 M, 1 B]
+         |       |   |   |- mean_concavity=[, 0.04157), class=B [0 M, 1 B]
+         |       |   |   `- mean_concavity=[0.04157, ), class=M [6 M, 0 B]
+         |       |   `- se_compactness=[0.017175, ), class=B [0 M, 6 B]
+         |       `- mean_concave=[0.048865, ), class=M [14 M, 0 B]
+         `- worst_perimeter=[117.45, ), class=M [95 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 22
+error rate = 0.38596491228070173
+Majority (class = B)
+================================================================================
+=                                   round 5                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (14 leaves)
+ `- root [121 M, 221 B]
+     |- worst_perimeter=[, 106.1) [9 M, 205 B]
+     |   |- worst_concavity=[, 0.40725) [2 M, 199 B]
+     |   |   |- se_radius=[, 0.62555) [1 M, 198 B]
+     |   |   |   |- worst_texture=[, 33.349999999999994), class=B [0 M, 186 B]
+     |   |   |   `- worst_texture=[33.349999999999994, ) [1 M, 12 B]
+     |   |   |       |- worst_texture=[, 33.805), class=M [1 M, 0 B]
+     |   |   |       `- worst_texture=[33.805, ), class=B [0 M, 12 B]
+     |   |   `- se_radius=[0.62555, ) [1 M, 1 B]
+     |   |       |- mean_radius=[, 13.085), class=M [1 M, 0 B]
+     |   |       `- mean_radius=[13.085, ), class=B [0 M, 1 B]
+     |   `- worst_concavity=[0.40725, ) [7 M, 6 B]
+     |       |- se_concavity=[, 0.07748) [7 M, 1 B]
+     |       |   |- mean_texture=[, 16.22), class=B [0 M, 1 B]
+     |       |   `- mean_texture=[16.22, ), class=M [7 M, 0 B]
+     |       `- se_concavity=[0.07748, ), class=B [0 M, 5 B]
+     `- worst_perimeter=[106.1, ) [112 M, 16 B]
+         |- worst_perimeter=[, 117.45) [21 M, 16 B]
+         |   |- worst_texture=[, 20.355), class=B [0 M, 11 B]
+         |   `- worst_texture=[20.355, ) [21 M, 5 B]
+         |       |- mean_symmetry=[, 0.15265), class=B [0 M, 3 B]
+         |       `- mean_symmetry=[0.15265, ) [21 M, 2 B]
+         |           |- se_smoothness=[, 0.0048635) [4 M, 2 B]
+         |           |   |- mean_symmetry=[, 0.18005), class=M [4 M, 0 B]
+         |           |   `- mean_symmetry=[0.18005, ), class=B [0 M, 2 B]
+         |           `- se_smoothness=[0.0048635, ), class=M [17 M, 0 B]
+         `- worst_perimeter=[117.45, ), class=M [91 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (2 leaves)
+ `- root [121 M, 221 B]
+     |- worst_perimeter=[, 106.1), class=B [9 M, 205 B]
+     `- worst_perimeter=[106.1, ), class=M [112 M, 16 B]
+----------------------------- majority classifier ------------------------------
+# of error = 25
+error rate = 0.43859649122807015
+Majority (class = B)
+================================================================================
+=                                   round 6                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 6
+error rate = 0.10526315789473684
+ID3 (13 leaves)
+ `- root [125 M, 217 B]
+     |- worst_perimeter=[, 106.1) [6 M, 199 B]
+     |   |- worst_compactness=[, 0.39949999999999997) [2 M, 194 B]
+     |   |   |- se_area=[, 46.925) [1 M, 192 B]
+     |   |   |   |- worst_texture=[, 33.269999999999996), class=B [0 M, 180 B]
+     |   |   |   `- worst_texture=[33.269999999999996, ) [1 M, 12 B]
+     |   |   |       |- worst_texture=[, 33.805), class=M [1 M, 0 B]
+     |   |   |       `- worst_texture=[33.805, ), class=B [0 M, 12 B]
+     |   |   `- se_area=[46.925, ) [1 M, 2 B]
+     |   |       |- mean_compactness=[, 0.10951999999999999), class=M [1 M, 0 B]
+     |   |       `- mean_compactness=[0.10951999999999999, ), class=B [0 M, 2 B]
+     |   `- worst_compactness=[0.39949999999999997, ) [4 M, 5 B]
+     |       |- se_area=[, 20.18), class=B [0 M, 5 B]
+     |       `- se_area=[20.18, ), class=M [4 M, 0 B]
+     `- worst_perimeter=[106.1, ) [119 M, 18 B]
+         |- worst_perimeter=[, 117.45) [21 M, 18 B]
+         |   |- worst_smoothness=[, 0.13695000000000002) [6 M, 18 B]
+         |   |   |- worst_texture=[, 25.67), class=B [0 M, 15 B]
+         |   |   `- worst_texture=[25.67, ) [6 M, 3 B]
+         |   |       |- se_smoothness=[, 0.0048635) [1 M, 3 B]
+         |   |       |   |- mean_radius=[, 15.175), class=B [0 M, 3 B]
+         |   |       |   `- mean_radius=[15.175, ), class=M [1 M, 0 B]
+         |   |       `- se_smoothness=[0.0048635, ), class=M [5 M, 0 B]
+         |   `- worst_smoothness=[0.13695000000000002, ), class=M [15 M, 0 B]
+         `- worst_perimeter=[117.45, ), class=M [98 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 7
+error rate = 0.12280701754385964
+ID3 (7 leaves)
+ `- root [125 M, 217 B]
+     |- worst_perimeter=[, 106.1), class=B [6 M, 199 B]
+     `- worst_perimeter=[106.1, ) [119 M, 18 B]
+         |- worst_perimeter=[, 117.45) [21 M, 18 B]
+         |   |- worst_smoothness=[, 0.13695000000000002) [6 M, 18 B]
+         |   |   |- worst_texture=[, 25.67), class=B [0 M, 15 B]
+         |   |   `- worst_texture=[25.67, ) [6 M, 3 B]
+         |   |       |- se_smoothness=[, 0.0048635) [1 M, 3 B]
+         |   |       |   |- mean_radius=[, 15.175), class=B [0 M, 3 B]
+         |   |       |   `- mean_radius=[15.175, ), class=M [1 M, 0 B]
+         |   |       `- se_smoothness=[0.0048635, ), class=M [5 M, 0 B]
+         |   `- worst_smoothness=[0.13695000000000002, ), class=M [15 M, 0 B]
+         `- worst_perimeter=[117.45, ), class=M [98 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 25
+error rate = 0.43859649122807015
+Majority (class = B)
+================================================================================
+=                                   round 7                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (13 leaves)
+ `- root [131 M, 211 B]
+     |- worst_perimeter=[, 106.1) [9 M, 198 B]
+     |   |- worst_concave=[, 0.14200000000000002) [2 M, 191 B]
+     |   |   |- se_area=[, 46.925) [1 M, 190 B]
+     |   |   |   |- worst_texture=[, 33.269999999999996), class=B [0 M, 179 B]
+     |   |   |   `- worst_texture=[33.269999999999996, ) [1 M, 11 B]
+     |   |   |       |- worst_texture=[, 34.14), class=M [1 M, 0 B]
+     |   |   |       `- worst_texture=[34.14, ), class=B [0 M, 11 B]
+     |   |   `- se_area=[46.925, ) [1 M, 1 B]
+     |   |       |- mean_radius=[, 13.085), class=M [1 M, 0 B]
+     |   |       `- mean_radius=[13.085, ), class=B [0 M, 1 B]
+     |   `- worst_concave=[0.14200000000000002, ) [7 M, 7 B]
+     |       |- worst_texture=[, 25.77), class=B [0 M, 6 B]
+     |       `- worst_texture=[25.77, ) [7 M, 1 B]
+     |           |- mean_compactness=[, 0.11825), class=B [0 M, 1 B]
+     |           `- mean_compactness=[0.11825, ), class=M [7 M, 0 B]
+     `- worst_perimeter=[106.1, ) [122 M, 13 B]
+         |- worst_perimeter=[, 115.45) [18 M, 13 B]
+         |   |- worst_texture=[, 20.355), class=B [0 M, 9 B]
+         |   `- worst_texture=[20.355, ) [18 M, 4 B]
+         |       |- mean_concave=[, 0.042789999999999995) [3 M, 4 B]
+         |       |   |- mean_texture=[, 21.47), class=B [0 M, 4 B]
+         |       |   `- mean_texture=[21.47, ), class=M [3 M, 0 B]
+         |       `- mean_concave=[0.042789999999999995, ), class=M [15 M, 0 B]
+         `- worst_perimeter=[115.45, ), class=M [104 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (6 leaves)
+ `- root [131 M, 211 B]
+     |- worst_perimeter=[, 106.1), class=B [9 M, 198 B]
+     `- worst_perimeter=[106.1, ) [122 M, 13 B]
+         |- worst_perimeter=[, 115.45) [18 M, 13 B]
+         |   |- worst_texture=[, 20.355), class=B [0 M, 9 B]
+         |   `- worst_texture=[20.355, ) [18 M, 4 B]
+         |       |- mean_concave=[, 0.042789999999999995) [3 M, 4 B]
+         |       |   |- mean_texture=[, 21.47), class=B [0 M, 4 B]
+         |       |   `- mean_texture=[21.47, ), class=M [3 M, 0 B]
+         |       `- mean_concave=[0.042789999999999995, ), class=M [15 M, 0 B]
+         `- worst_perimeter=[115.45, ), class=M [104 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 17
+error rate = 0.2982456140350877
+Majority (class = B)
+================================================================================
+=                                   round 8                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 2
+error rate = 0.03508771929824561
+ID3 (11 leaves)
+ `- root [127 M, 215 B]
+     |- worst_perimeter=[, 116.05000000000001) [25 M, 215 B]
+     |   |- worst_concave=[, 0.1456) [9 M, 210 B]
+     |   |   |- worst_perimeter=[, 107.75) [2 M, 194 B]
+     |   |   |   |- worst_texture=[, 33.269999999999996), class=B [0 M, 184 B]
+     |   |   |   `- worst_texture=[33.269999999999996, ) [2 M, 10 B]
+     |   |   |       |- worst_concave=[, 0.09229000000000001), class=B [0 M, 10 B]
+     |   |   |       `- worst_concave=[0.09229000000000001, ), class=M [2 M, 0 B]
+     |   |   `- worst_perimeter=[107.75, ) [7 M, 16 B]
+     |   |       |- worst_texture=[, 20.22), class=B [0 M, 12 B]
+     |   |       `- worst_texture=[20.22, ) [7 M, 4 B]
+     |   |           |- se_compactness=[, 0.03018) [7 M, 1 B]
+     |   |           |   |- mean_symmetry=[, 0.151), class=B [0 M, 1 B]
+     |   |           |   `- mean_symmetry=[0.151, ), class=M [7 M, 0 B]
+     |   |           `- se_compactness=[0.03018, ), class=B [0 M, 3 B]
+     |   `- worst_concave=[0.1456, ) [16 M, 5 B]
+     |       |- worst_texture=[, 24.515) [1 M, 5 B]
+     |       |   |- mean_smoothness=[, 0.12380000000000001), class=B [0 M, 5 B]
+     |       |   `- mean_smoothness=[0.12380000000000001, ), class=M [1 M, 0 B]
+     |       `- worst_texture=[24.515, ), class=M [15 M, 0 B]
+     `- worst_perimeter=[116.05000000000001, ), class=M [102 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 4
+error rate = 0.07017543859649122
+ID3 (5 leaves)
+ `- root [127 M, 215 B]
+     |- worst_perimeter=[, 116.05000000000001) [25 M, 215 B]
+     |   |- worst_concave=[, 0.1456), class=B [9 M, 210 B]
+     |   `- worst_concave=[0.1456, ) [16 M, 5 B]
+     |       |- worst_texture=[, 24.515) [1 M, 5 B]
+     |       |   |- mean_smoothness=[, 0.12380000000000001), class=B [0 M, 5 B]
+     |       |   `- mean_smoothness=[0.12380000000000001, ), class=M [1 M, 0 B]
+     |       `- worst_texture=[24.515, ), class=M [15 M, 0 B]
+     `- worst_perimeter=[116.05000000000001, ), class=M [102 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 23
+error rate = 0.40350877192982454
+Majority (class = B)
+================================================================================
+=                                   round 9                                    =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 170
+# of test examples = 57
+------------------------------- before pruning: --------------------------------
+# of error = 2
+error rate = 0.03508771929824561
+ID3 (12 leaves)
+ `- root [135 M, 207 B]
+     |- worst_perimeter=[, 116.05000000000001) [27 M, 207 B]
+     |   |- worst_concave=[, 0.1456) [10 M, 201 B]
+     |   |   |- worst_perimeter=[, 107.75) [3 M, 184 B]
+     |   |   |   |- se_area=[, 46.925) [2 M, 184 B]
+     |   |   |   |   |- worst_texture=[, 33.269999999999996), class=B [0 M, 175 B]
+     |   |   |   |   `- worst_texture=[33.269999999999996, ) [2 M, 9 B]
+     |   |   |   |       |- mean_texture=[, 23.845), class=M [2 M, 0 B]
+     |   |   |   |       `- mean_texture=[23.845, ), class=B [0 M, 9 B]
+     |   |   |   `- se_area=[46.925, ), class=M [1 M, 0 B]
+     |   |   `- worst_perimeter=[107.75, ) [7 M, 17 B]
+     |   |       |- mean_texture=[, 16.795), class=B [0 M, 13 B]
+     |   |       `- mean_texture=[16.795, ) [7 M, 4 B]
+     |   |           |- mean_smoothness=[, 0.08993999999999999) [1 M, 4 B]
+     |   |           |   |- mean_radius=[, 14.83), class=B [0 M, 4 B]
+     |   |           |   `- mean_radius=[14.83, ), class=M [1 M, 0 B]
+     |   |           `- mean_smoothness=[0.08993999999999999, ), class=M [6 M, 0 B]
+     |   `- worst_concave=[0.1456, ) [17 M, 6 B]
+     |       |- worst_texture=[, 24.515) [1 M, 6 B]
+     |       |   |- mean_smoothness=[, 0.12380000000000001), class=B [0 M, 6 B]
+     |       |   `- mean_smoothness=[0.12380000000000001, ), class=M [1 M, 0 B]
+     |       `- worst_texture=[24.515, ), class=M [16 M, 0 B]
+     `- worst_perimeter=[116.05000000000001, ), class=M [108 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 2
+error rate = 0.03508771929824561
+ID3 (5 leaves)
+ `- root [135 M, 207 B]
+     |- worst_perimeter=[, 116.05000000000001) [27 M, 207 B]
+     |   |- worst_concave=[, 0.1456), class=B [10 M, 201 B]
+     |   `- worst_concave=[0.1456, ) [17 M, 6 B]
+     |       |- worst_texture=[, 24.515) [1 M, 6 B]
+     |       |   |- mean_smoothness=[, 0.12380000000000001), class=B [0 M, 6 B]
+     |       |   `- mean_smoothness=[0.12380000000000001, ), class=M [1 M, 0 B]
+     |       `- worst_texture=[24.515, ), class=M [16 M, 0 B]
+     `- worst_perimeter=[116.05000000000001, ), class=M [108 M, 0 B]
+----------------------------- majority classifier ------------------------------
+# of error = 15
+error rate = 0.2631578947368421
+Majority (class = B)
+================================================================================
+=                                   round 10                                   =
+================================================================================
+# of learning examples = 342
+# of pruning examples = 171
+# of test examples = 56
+------------------------------- before pruning: --------------------------------
+# of error = 3
+error rate = 0.05357142857142857
+ID3 (12 leaves)
+ `- root [132 M, 210 B]
+     |- worst_perimeter=[, 105.95) [9 M, 192 B]
+     |   |- worst_concave=[, 0.14235) [1 M, 185 B]
+     |   |   |- worst_texture=[, 33.269999999999996), class=B [0 M, 175 B]
+     |   |   `- worst_texture=[33.269999999999996, ) [1 M, 10 B]
+     |   |       |- worst_texture=[, 33.56), class=M [1 M, 0 B]
+     |   |       `- worst_texture=[33.56, ), class=B [0 M, 10 B]
+     |   `- worst_concave=[0.14235, ) [8 M, 7 B]
+     |       |- worst_texture=[, 25.77), class=B [0 M, 6 B]
+     |       `- worst_texture=[25.77, ) [8 M, 1 B]
+     |           |- mean_fractal_dimension=[, 0.06128), class=B [0 M, 1 B]
+     |           `- mean_fractal_dimension=[0.06128, ), class=M [8 M, 0 B]
+     `- worst_perimeter=[105.95, ) [123 M, 18 B]
+         |- worst_perimeter=[, 120.85) [27 M, 18 B]
+         |   |- worst_texture=[, 20.045), class=B [0 M, 11 B]
+         |   `- worst_texture=[20.045, ) [27 M, 7 B]
+         |       |- mean_concave=[, 0.042789999999999995) [6 M, 7 B]
+         |       |   |- se_compactness=[, 0.019835) [6 M, 1 B]
+         |       |   |   |- mean_concavity=[, 0.04157), class=B [0 M, 1 B]
+         |       |   |   `- mean_concavity=[0.04157, ), class=M [6 M, 0 B]
+         |       |   `- se_compactness=[0.019835, ), class=B [0 M, 6 B]
+         |       `- mean_concave=[0.042789999999999995, ), class=M [21 M, 0 B]
+         `- worst_perimeter=[120.85, ), class=M [96 M, 0 B]
+-------------------------------- after pruning: --------------------------------
+# of error = 6
+error rate = 0.10714285714285714
+ID3 (2 leaves)
+ `- root [132 M, 210 B]
+     |- worst_perimeter=[, 105.95), class=B [9 M, 192 B]
+     `- worst_perimeter=[105.95, ), class=M [123 M, 18 B]
+----------------------------- majority classifier ------------------------------
+# of error = 19
+error rate = 0.3392857142857143
+Majority (class = B)
+################################################################################
+#                                   summary                                    #
+################################################################################
++-------+-------+-------+------+---------+---------+-------+-------+----------+
+| round | learn | prune | test | leaf    | error   | leaf  | error | error    |
+|       |       |       |      | (orig.) | (orig.) | (pr.) | (pr.) | (major.) |
++-------+-------+-------+------+---------+---------+-------+-------+----------+
+|     1 |   342 |   170 |   57 |      12 |       4 |     9 |     4 |       25 |
+|     2 |   342 |   170 |   57 |      12 |       7 |     5 |     6 |       20 |
+|     3 |   342 |   170 |   57 |      12 |       6 |    10 |     6 |       21 |
+|     4 |   342 |   170 |   57 |      12 |       3 |     7 |     4 |       22 |
+|     5 |   342 |   170 |   57 |      14 |       4 |     2 |     4 |       25 |
+|     6 |   342 |   170 |   57 |      13 |       6 |     7 |     7 |       25 |
+|     7 |   342 |   170 |   57 |      13 |       4 |     6 |     4 |       17 |
+|     8 |   342 |   170 |   57 |      11 |       2 |     5 |     4 |       23 |
+|     9 |   342 |   170 |   57 |      12 |       2 |     5 |     2 |       15 |
+|    10 |   342 |   171 |   56 |      12 |       3 |     2 |     6 |       19 |
++-------+-------+-------+------+---------+---------+-------+-------+----------+
+################################################################################
+#                                  statistics                                  #
+################################################################################
++----------+------+----------+-----+--------------+
+|          | leaf | accuracy | SE  | 95% CI       |
++----------+------+----------+-----+--------------+
+|   before | 12.3 |     92.8 | 1.0 | (90.7, 94.9) |
+|    after |  5.8 |     91.7 | 0.8 | (89.9, 93.6) |
+| majority |  N/A |     62.7 | 1.9 | (58.5, 67.0) |
++----------+------+----------+-----+--------------+
