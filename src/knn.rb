@@ -14,6 +14,7 @@ class KNN
 
         @k = @setup.get_or_else("k", 1)
         @is_weighted = @setup.get_or_else("distance-weighting", false)
+        @use_feature_weighting = @setup.get_or_else("feature-weighting", false)
         @use_PCA = @setup.get_or_else("PCA", false)
         @energy_ratio = @setup.get_or_else("PCA-energy-ratio", 0.9)
         @use_ntgrowth = @setup.get_or_else("NTGrowth", false)

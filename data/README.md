@@ -21,3 +21,5 @@
 [hill](http://archive.ics.uci.edu/ml/datasets/Hill-Valley)                                  100-606,    c
 [climate](http://archive.ics.uci.edu/ml/datasets/Climate+Model+Simulation+Crashes)          18-540,     c
 [mushroom](http://archive.ics.uci.edu/ml/datasets/Mushroom)                                 22-8124,    d
+[diabete](http://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes)
+[glass](http://archive.ics.uci.edu/ml/datasets/Glass+Identification)

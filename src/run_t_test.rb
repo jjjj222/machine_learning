@@ -60,7 +60,8 @@ diff = []
     diff << all_data[0][i] - all_data[1][i]
 end
 #diff.dump
-print diff.avg_se_ci_95(2.23, false)
+#print diff.avg_se_ci_95(2.23, false)
+print diff.avg_se_ci_95(2.23)
 puts
 
 

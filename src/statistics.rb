@@ -17,15 +17,16 @@ module Enumerable
     alias_method :mean, :expected_value
 
     #def avg_se_ci_95(tNv, limit = true)
-    def avg_se_ci_95(tNv, limit = false)
+    #def avg_se_ci_95(tNv, limit = false)
+    def avg_se_ci_95(tNv)
         #tNv = 2.23
         avg, sd = mean_sd()
         #se = sd
         se = sd / Math.sqrt(length)
         interval_low = avg - se * tNv
-        interval_low = 0.0 if limit and interval_low < 0.0
+        #interval_low = 0.0 if limit and interval_low < 0.0
         interval_up = avg + se * tNv
-        interval_up = 100.0 if limit and interval_up > 100.0
+        #interval_up = 100.0 if limit and interval_up > 100.0
         interval = "(#{interval_low.round(1)}, #{interval_up.round(1)})"
         return [avg.round(1), se.round(1), interval]
     end
