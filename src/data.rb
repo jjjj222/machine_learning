@@ -298,18 +298,19 @@ class LearningData
     end
 
     def entropy
-        hash = Hash.new(0)
-        @examples.each do |example|
-            value = example[-1]
-            hash[value] += 1
-        end
+        return @examples.map {|example| example[-1]}.entropy
+        #hash = Hash.new(0)
+        #@examples.each do |example|
+        #    value = example[-1]
+        #    hash[value] += 1
+        #end
 
-        sum = 0.0
-        hash.each_value do |value|
-            ratio = value.to_f / @examples.length
-            sum += -1 * ratio * Math.log2(ratio)
-        end
-        return sum
+        #sum = 0.0
+        #hash.each_value do |value|
+        #    ratio = value.to_f / @examples.length
+        #    sum += -1 * ratio * Math.log2(ratio)
+        #end
+        #return sum
     end
 
     def error_count

@@ -14,7 +14,7 @@ class KNN
 
         @k = @setup.get_or_else("k", 1)
         @is_weighted = @setup.get_or_else("distance-weighting", false)
-        @use_feature_weighting = @setup.get_or_else("feature-weighting", false)
+        @feature_weighting = @setup.get_or_else("feature-weighting", nil)
         @use_PCA = @setup.get_or_else("PCA", false)
         @energy_ratio = @setup.get_or_else("PCA-energy-ratio", 0.9)
         @use_ntgrowth = @setup.get_or_else("NTGrowth", false)
@@ -23,6 +23,19 @@ class KNN
         if @k == -1
             @k = @examples.length
         end
+
+        if @feature_weighting
+            @feature_weighting = calculate_feature_weighting()
+            puts "Feature weighting:"
+            @attributes[0...-1].each_with_index do |attribute, i|
+                puts "#{attribute.name} : #{@feature_weighting[i]}"
+            end
+            #@feature_weighting.dump
+            #byebug
+            #@attributes.dump
+            #@feature_weighting.dump
+        end
+        #@feature_weighting.dump
 
         if @use_ntgrowth
             nt_growth()
@@ -122,6 +135,51 @@ class KNN
         end
     end
 
+    def calculate_feature_weighting
+        all_continuous = true
+        all_discrete = true
+
+        if @attributes[0...-1].detect {|attribute| !attribute.continuous?}
+          all_continuous = false
+        end
+
+        if @attributes[0...-1].detect {|attribute| attribute.continuous?}
+          all_discrete = false
+        end
+
+        if all_continuous
+            puts "TODO: coninutous"
+            exit
+        elsif all_discrete
+            return calculate_feature_weighting_discrete()
+        else
+            puts "TODO: mix"
+            exit
+        end
+    end
+
+    def calculate_feature_weighting_discrete
+        weighting = []
+        @attributes[0...-1].each_with_index do |attribute, i|
+            attr_class = @examples.map do |example|
+                [example[i], example[-1]]
+            end
+            weighting << attr_class.information_gain()
+            #attr_class.dump
+            #print [attribute.name, attr_class.information_gain()]
+            #puts
+            #exit
+        end
+        #puts "yoyo"
+        #i = @@attributes.index(attribute)
+
+        #hash = Hash.new { |h, k| h[k] = [] }
+        #@examples.each do |example|
+        #    hash[example[i]] << example
+        #end
+        return weighting
+    end
+
     def calculate_pca_matrix
         x_raw = @examples.map do |example| example[0...-1] end
 
@@ -208,14 +266,22 @@ class KNN
 
     def distance(example1, example2)
         sum = 0.0
-        @attributes.each_with_index do |attribute, i|
+        @attributes[0...-1].each_with_index do |attribute, i|
+            inc = 0.0
             if attribute.continuous?
-                sum += (example1[i].to_f - example2[i].to_f) ** 2
+                inc = (example1[i].to_f - example2[i].to_f) ** 2
             else
                 if (example1[i] != example2[i])
-                    sum += 1
+                    inc = 1
                 end
             end
+
+            #if @use_feature_weighting
+            if @feature_weighting
+                inc *= @feature_weighting[i]
+            end
+
+            sum += inc
         end
         Math.sqrt(sum)
     end

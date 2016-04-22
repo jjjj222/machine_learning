@@ -91,6 +91,7 @@ class ID3Tester < Tester
 
             #puts ">>> before pruning:"
             id3 = ID3.new(learning_examples, @attributes, @setup)
+            #id3 = ID3.new(@examples, @attributes, @setup)
             recorder << id3.learning_examples_length
             recorder << id3.pruning_examples_length
             recorder << test_examples.length

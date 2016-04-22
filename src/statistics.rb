@@ -44,3 +44,32 @@ module Enumerable
         end
     end
 end
+
+module Enumerable
+  def entropy
+    hash = word_count()
+
+    sum = 0.0
+    hash.each_value do |value|
+        ratio = value.to_f / length
+        sum += -1 * ratio * Math.log2(ratio)
+    end
+    return sum
+  end
+
+  def information_gain
+    sum = map {|elt| elt[-1]}.entropy()
+
+    hash = Hash.new_array
+    each do |elt|
+        hash[elt[0]] << elt[1]
+    end
+
+    hash.each_value do |array|
+        ratio = array.length.to_f / length
+        sum -= ratio * array.entropy
+    end
+
+    return sum
+  end
+end

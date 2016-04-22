@@ -224,6 +224,7 @@ class ID3
         learning_examples, @prune_examples = examples.split_by_ratio(@@prune_ratio)
 
         @data = LearningData.new(learning_examples)
+        #@data = LearningData.new(examples)
 
         build
         if (setup and setup["prune"] != nil and setup["prune"] == false)
@@ -255,6 +256,9 @@ class ID3
         all_decisions = attributes.map do |attribute|
             [attribute, data.information_gain_with_split(attribute)]
         end
+        #data.dump
+        #all_decisions.map {|elt| [elt[0].name, elt[1][0]]}.dump
+        #exit
         #decision = attributes.max_by do |attribute|
         #    data.information_gain(attribute)
         #end

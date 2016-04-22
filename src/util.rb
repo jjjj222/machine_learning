@@ -117,6 +117,10 @@ class Hash
             return value
         end
     end
+
+    def self.new_array
+        new { |h, k| h[k] = [] }
+    end
 end
 
 #------------------------------------------------------------------------------
