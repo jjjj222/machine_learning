@@ -76,7 +76,7 @@ module Enumerable
   def fisher_score
     avg = map {|elt| elt[0]}.expected_value()
 
-    byebug
+    #byebug
     hash = Hash.new_array
     each do |elt|
         hash[elt[1]] << elt[0]
