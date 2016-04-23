@@ -1,5 +1,5 @@
 require 'matrix'
-require 'byebug'
+#require 'byebug'
 
 class KNN
     @@random_seed = 0
