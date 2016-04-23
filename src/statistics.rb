@@ -72,4 +72,24 @@ module Enumerable
 
     return sum
   end
+
+  def fisher_score
+    avg = map {|elt| elt[0]}.expected_value()
+
+    byebug
+    hash = Hash.new_array
+    each do |elt|
+        hash[elt[1]] << elt[0]
+    end
+
+    numerator = 0.0
+    denominator = 0.0
+
+    hash.each_value do |values|
+        mean, sd = values.mean_sd
+        numerator += ((mean - avg) ** 2) * values.length
+        denominator += (sd ** 2) * values.length
+    end
+    return numerator / denominator
+  end
 end

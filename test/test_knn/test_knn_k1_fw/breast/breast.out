@@ -1,0 +1,375 @@
+================================================================================
+=                                   round 1                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.2146052705673396
+mean_texture : 0.18359971641571668
+mean_perimeter : 1.3053821849972544
+mean_area : 1.0636291033067689
+mean_smoothness : 0.15373807559074354
+mean_compactness : 0.5805499434169415
+mean_concavity : 0.9422830076082308
+mean_concave : 1.5679757524090152
+mean_symmetry : 0.13173802672572618
+mean_fractal_dimension : 4.259652553740565e-05
+se_radius : 0.47816989826889295
+se_texture : 0.0022667314320481374
+se_perimeter : 0.4543074122910652
+se_area : 0.4274740869190275
+se_smoothness : 0.0029122939647284584
+se_compactness : 0.10340093711886274
+se_concavity : 0.06511067494261942
+se_concave : 0.2018328259177008
+se_symmetry : 0.0004341454321956348
+se_fractal_dimension : 0.008663462198616013
+worst_radius : 1.5939850353287774
+worst_texture : 0.22256140432240143
+worst_perimeter : 1.6566970508274226
+worst_area : 1.2078518338103397
+worst_smoothness : 0.22021107764379977
+worst_compactness : 0.5634704034078701
+worst_concavity : 0.7634308107609438
+worst_concave : 1.7590581304710613
+worst_symmetry : 0.2168922779353232
+worst_fractal_dimension : 0.12374290510034366
+================================================================================
+=                                   round 2                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.0916655401201358
+mean_texture : 0.2180649339159212
+mean_perimeter : 1.1820141827786435
+mean_area : 0.9600447846432212
+mean_smoothness : 0.14967681864897242
+mean_compactness : 0.5793378516931238
+mean_concavity : 1.0001400676311727
+mean_concave : 1.5300973965158557
+mean_symmetry : 0.13938387620678003
+mean_fractal_dimension : 5.7650788804971853e-05
+se_radius : 0.4726638654245149
+se_texture : 1.6955934563477017e-07
+se_perimeter : 0.4433930793434839
+se_area : 0.4149868688871915
+se_smoothness : 0.003983936567209251
+se_compactness : 0.1026406635682415
+se_concavity : 0.07497089349457639
+se_concave : 0.20601642490258884
+se_symmetry : 6.400155522310013e-06
+se_fractal_dimension : 0.008728228498599779
+worst_radius : 1.4525772461198994
+worst_texture : 0.27877063884344455
+worst_perimeter : 1.512978131688027
+worst_area : 1.1064990946920206
+worst_smoothness : 0.2103205626386754
+worst_compactness : 0.5436425909761499
+worst_concavity : 0.7874024761387434
+worst_concave : 1.6782422598615014
+worst_symmetry : 0.22211610593062187
+worst_fractal_dimension : 0.1239806982352849
+================================================================================
+=                                   round 3                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.1564825520615236
+mean_texture : 0.21786448785574755
+mean_perimeter : 1.2466728175601398
+mean_area : 1.0225958345297341
+mean_smoothness : 0.13728952457020216
+mean_compactness : 0.5644540350061584
+mean_concavity : 1.0977726141893978
+mean_concave : 1.5841952923186475
+mean_symmetry : 0.12304481063926792
+mean_fractal_dimension : 2.172687157192648e-05
+se_radius : 0.4731502895431044
+se_texture : 0.00014719292923562186
+se_perimeter : 0.44266816027666545
+se_area : 0.4210582020684719
+se_smoothness : 0.004178305866473647
+se_compactness : 0.11029550223518808
+se_concavity : 0.15817112937607422
+se_concave : 0.2568388173868012
+se_symmetry : 9.983699055703905e-07
+se_fractal_dimension : 0.00950410205897589
+worst_radius : 1.557601156203062
+worst_texture : 0.2695100598693384
+worst_perimeter : 1.6168511097623834
+worst_area : 1.1898458103774447
+worst_smoothness : 0.20872885114142584
+worst_compactness : 0.5611568951006666
+worst_concavity : 0.9269236766014083
+worst_concave : 1.862566628684655
+worst_symmetry : 0.21193368622880163
+worst_fractal_dimension : 0.12376437295026443
+================================================================================
+=                                   round 4                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.120584025685678
+mean_texture : 0.21759381912404696
+mean_perimeter : 1.2127175090562858
+mean_area : 1.0092991617351605
+mean_smoothness : 0.1525713820428432
+mean_compactness : 0.5577203133049636
+mean_concavity : 0.9056871984400456
+mean_concave : 1.533495416392443
+mean_symmetry : 0.12704015313902783
+mean_fractal_dimension : 6.110082480335819e-05
+se_radius : 0.4240786376327202
+se_texture : 0.00019880558423756445
+se_perimeter : 0.40834455768096634
+se_area : 0.3897825025213158
+se_smoothness : 0.00510629429935163
+se_compactness : 0.09175355627141137
+se_concavity : 0.06313532461658616
+se_concave : 0.18947228995345938
+se_symmetry : 0.00015056278034244393
+se_fractal_dimension : 0.004960140906513713
+worst_radius : 1.5214335356317545
+worst_texture : 0.2649514473326433
+worst_perimeter : 1.586994283308176
+worst_area : 1.1993491163635164
+worst_smoothness : 0.21466635013249155
+worst_compactness : 0.5476730622869959
+worst_concavity : 0.7621421959522874
+worst_concave : 1.6684469179460115
+worst_symmetry : 0.21938542818906087
+worst_fractal_dimension : 0.12049557762380075
+================================================================================
+=                                   round 5                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.0507812117773856
+mean_texture : 0.21718443354620154
+mean_perimeter : 1.143545446830366
+mean_area : 0.9543396884599235
+mean_smoothness : 0.14989911731237082
+mean_compactness : 0.5277760021220469
+mean_concavity : 0.9018997239828884
+mean_concave : 1.4348795319233105
+mean_symmetry : 0.13098521443029018
+mean_fractal_dimension : 0.00015952951236543507
+se_radius : 0.5051474980855943
+se_texture : 4.357668845208234e-05
+se_perimeter : 0.4808722745975411
+se_area : 0.5157001997788894
+se_smoothness : 0.006096396507534863
+se_compactness : 0.08836955498753332
+se_concavity : 0.06266187884395825
+se_concave : 0.17761671091247497
+se_symmetry : 3.6584779706904626e-05
+se_fractal_dimension : 0.005464461292479708
+worst_radius : 1.4273434578701838
+worst_texture : 0.28437614252853743
+worst_perimeter : 1.5233649229911777
+worst_area : 1.1429143519616851
+worst_smoothness : 0.2190860099004388
+worst_compactness : 0.5490621440302531
+worst_concavity : 0.7767231318869305
+worst_concave : 1.6031210305524868
+worst_symmetry : 0.2175632179973715
+worst_fractal_dimension : 0.13320239267115722
+================================================================================
+=                                   round 6                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.164950697261339
+mean_texture : 0.19857525792251954
+mean_perimeter : 1.2494723397032923
+mean_area : 1.026403089958409
+mean_smoothness : 0.15668518527938705
+mean_compactness : 0.5387186932870921
+mean_concavity : 0.8673553094738792
+mean_concave : 1.4481316774991773
+mean_symmetry : 0.12267307563565162
+mean_fractal_dimension : 0.00021378526912943009
+se_radius : 0.48226523684403566
+se_texture : 0.0002742742631900257
+se_perimeter : 0.4519925585945768
+se_area : 0.4224465539622235
+se_smoothness : 0.00241280810592654
+se_compactness : 0.08539512570293534
+se_concavity : 0.06344930252661417
+se_concave : 0.1941499613529259
+se_symmetry : 2.8636033023409804e-05
+se_fractal_dimension : 0.004767922689672233
+worst_radius : 1.5697373705044864
+worst_texture : 0.2453213703495468
+worst_perimeter : 1.6235542839221098
+worst_area : 1.2120839487756716
+worst_smoothness : 0.22682628516446107
+worst_compactness : 0.524745316937146
+worst_concavity : 0.7244184710727151
+worst_concave : 1.6177612080734494
+worst_symmetry : 0.20377163458996705
+worst_fractal_dimension : 0.10876882456299393
+================================================================================
+=                                   round 7                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.1691250603221532
+mean_texture : 0.20966961956939761
+mean_perimeter : 1.2527331489365356
+mean_area : 1.0443485027457111
+mean_smoothness : 0.12287219703739209
+mean_compactness : 0.5079462864143384
+mean_concavity : 0.9236013500914286
+mean_concave : 1.5245125142565203
+mean_symmetry : 0.09875343659250005
+mean_fractal_dimension : 0.002310319168460587
+se_radius : 0.5201077199175138
+se_texture : 0.0003057033447724301
+se_perimeter : 0.5035430099532693
+se_area : 0.49366515438455566
+se_smoothness : 0.006854412188567763
+se_compactness : 0.07807706676823722
+se_concavity : 0.05200442534537959
+se_concave : 0.19113630417477995
+se_symmetry : 0.0008139881016995604
+se_fractal_dimension : 0.002704044131438876
+worst_radius : 1.5011863155256655
+worst_texture : 0.27348812445307086
+worst_perimeter : 1.5632347147180736
+worst_area : 1.1291029461579132
+worst_smoothness : 0.20861591021145465
+worst_compactness : 0.4947776770726243
+worst_concavity : 0.7240884277662323
+worst_concave : 1.6996351629872752
+worst_symmetry : 0.19412750533812972
+worst_fractal_dimension : 0.10254871845759703
+================================================================================
+=                                   round 8                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.1407672463614633
+mean_texture : 0.2037965132515282
+mean_perimeter : 1.2319127412216622
+mean_area : 1.010687460084452
+mean_smoothness : 0.16509532465070448
+mean_compactness : 0.6013352649167694
+mean_concavity : 0.9769718811048081
+mean_concave : 1.5809331016427495
+mean_symmetry : 0.1201429843993575
+mean_fractal_dimension : 6.299803452073295e-05
+se_radius : 0.49012075989452586
+se_texture : 0.0002691013597407432
+se_perimeter : 0.4636102095225582
+se_area : 0.4388880503693005
+se_smoothness : 0.0031699617722708013
+se_compactness : 0.1045446830247342
+se_concavity : 0.07219901038173245
+se_concave : 0.2082513873295972
+se_symmetry : 5.678547431428245e-05
+se_fractal_dimension : 0.009411842076895991
+worst_radius : 1.5119351954286684
+worst_texture : 0.26336725426790386
+worst_perimeter : 1.575141148440251
+worst_area : 1.1604976339589639
+worst_smoothness : 0.2418716604616015
+worst_compactness : 0.5464696523871324
+worst_concavity : 0.7885524619424409
+worst_concave : 1.7565067009985929
+worst_symmetry : 0.19430595165347608
+worst_fractal_dimension : 0.12237346378589113
+================================================================================
+=                                   round 9                                    =
+================================================================================
+Feature weighting:
+mean_radius : 1.1253666637719812
+mean_texture : 0.2126528073662519
+mean_perimeter : 1.2099098516317714
+mean_area : 0.983621972288811
+mean_smoothness : 0.13623757783686846
+mean_compactness : 0.5273054997823489
+mean_concavity : 0.9189482115859529
+mean_concave : 1.45009865719994
+mean_symmetry : 0.12076316764128099
+mean_fractal_dimension : 0.00029798660947868364
+se_radius : 0.4664089913883202
+se_texture : 0.0001865079908392491
+se_perimeter : 0.4323206354853517
+se_area : 0.415369884670106
+se_smoothness : 0.004288191161646289
+se_compactness : 0.09896198179511166
+se_concavity : 0.07136839701141467
+se_concave : 0.19973389013061915
+se_symmetry : 0.00041099402713497073
+se_fractal_dimension : 0.007753541159311821
+worst_radius : 1.485060805523364
+worst_texture : 0.27822396833491564
+worst_perimeter : 1.5408570099696282
+worst_area : 1.1375475830478656
+worst_smoothness : 0.19434060670699238
+worst_compactness : 0.4980450040576354
+worst_concavity : 0.7350915179752276
+worst_concave : 1.6245967478111052
+worst_symmetry : 0.20858719193942263
+worst_fractal_dimension : 0.10843062555612806
+================================================================================
+=                                   round 10                                   =
+================================================================================
+Feature weighting:
+mean_radius : 1.1404233288505001
+mean_texture : 0.19832255216165992
+mean_perimeter : 1.2228537106657156
+mean_area : 0.9992463554537752
+mean_smoothness : 0.1485261872137901
+mean_compactness : 0.5236269725167599
+mean_concavity : 0.8757575986422984
+mean_concave : 1.4941643797860544
+mean_symmetry : 0.10883578411032231
+mean_fractal_dimension : 0.0019215544022840923
+se_radius : 0.4319792323963198
+se_texture : 0.00010882704301145013
+se_perimeter : 0.4047605525267082
+se_area : 0.39039781509072535
+se_smoothness : 0.007706665841531595
+se_compactness : 0.07713828651932171
+se_concavity : 0.049419442495073435
+se_concave : 0.1751719099120103
+se_symmetry : 0.0011463361742492123
+se_fractal_dimension : 0.0025663855288191187
+worst_radius : 1.5108831489261838
+worst_texture : 0.25264973462405316
+worst_perimeter : 1.5822500735891956
+worst_area : 1.1483545143296972
+worst_smoothness : 0.21028614135042453
+worst_compactness : 0.5205231426760139
+worst_concavity : 0.7107474187744903
+worst_concave : 1.6906583575373904
+worst_symmetry : 0.19941272809200578
+worst_fractal_dimension : 0.10162815786576186
+################################################################################
+#                                    setup                                     #
+################################################################################
+k : 1
+distance-weighting : false
+feature-weighting : true
+PCA : false
+PCA-energy-ratio : 0.9
+NTGrowth : false
+NTGrowth-drop-ratio : 0.75
+################################################################################
+#                                   summary                                    #
+################################################################################
++-------+-------+------+-------+
+| round | learn | test | error |
++-------+-------+------+-------+
+|     1 |   512 |   57 |     5 |
+|     2 |   512 |   57 |     4 |
+|     3 |   512 |   57 |     5 |
+|     4 |   512 |   57 |     1 |
+|     5 |   512 |   57 |     2 |
+|     6 |   512 |   57 |     2 |
+|     7 |   512 |   57 |     1 |
+|     8 |   512 |   57 |     3 |
+|     9 |   512 |   57 |     5 |
+|    10 |   513 |   56 |     2 |
++-------+-------+------+-------+
+################################################################################
+#                                  statistics                                  #
+################################################################################
++-----+----------+-----+--------------+
+|     | accuracy | SE  | 95% CI       |
++-----+----------+-----+--------------+
+| knn |     94.7 | 0.9 | (92.7, 96.7) |
++-----+----------+-----+--------------+

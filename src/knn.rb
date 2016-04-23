@@ -1,5 +1,5 @@
 require 'matrix'
-#require 'byebug'
+require 'byebug'
 
 class KNN
     @@random_seed = 0
@@ -26,16 +26,13 @@ class KNN
 
         if @feature_weighting
             @feature_weighting = calculate_feature_weighting()
-            puts "Feature weighting:"
-            @attributes[0...-1].each_with_index do |attribute, i|
-                puts "#{attribute.name} : #{@feature_weighting[i]}"
+            if @feature_weighting
+              puts "Feature weighting:"
+              @attributes[0...-1].each_with_index do |attribute, i|
+                  puts "#{attribute.name} : #{@feature_weighting[i]}"
+              end
             end
-            #@feature_weighting.dump
-            #byebug
-            #@attributes.dump
-            #@feature_weighting.dump
         end
-        #@feature_weighting.dump
 
         if @use_ntgrowth
             nt_growth()
@@ -148,13 +145,13 @@ class KNN
         end
 
         if all_continuous
-            puts "TODO: coninutous"
-            exit
+            return calculate_feature_weighting_continuous()
+            return nil
         elsif all_discrete
             return calculate_feature_weighting_discrete()
         else
             puts "TODO: mix"
-            exit
+            return nil
         end
     end
 
@@ -165,18 +162,32 @@ class KNN
                 [example[i], example[-1]]
             end
             weighting << attr_class.information_gain()
-            #attr_class.dump
-            #print [attribute.name, attr_class.information_gain()]
-            #puts
-            #exit
         end
-        #puts "yoyo"
-        #i = @@attributes.index(attribute)
+        return weighting
+    end
 
-        #hash = Hash.new { |h, k| h[k] = [] }
+    def calculate_feature_weighting_continuous
+        #hash = Hash.new_array
         #@examples.each do |example|
-        #    hash[example[i]] << example
+        #    hash[example[-1]] << example
         #end
+
+        weighting = []
+        #example_t = @examples.transpose
+        #example_t.dump
+        @attributes[0...-1].each_with_index do |attribute, i|
+            attr_class = @examples.map do |example|
+                [example[i], example[-1]]
+            end
+            weighting << attr_class.fisher_score()
+
+            #avg = example_t[i].avg
+            #puts avg
+        #    attr_class = @examples.map do |example|
+        #        [example[i], example[-1]]
+        #    end
+        #    #weighting << attr_class.information_gain()
+        end
         return weighting
     end
 
