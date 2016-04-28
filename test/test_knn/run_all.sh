@@ -38,7 +38,7 @@ eval $cp_src
 #for c in car crx example example2 iris kidney liver tae wine abalone
 #for c in car crx iris kidney liver tae wine abalone
 #for c in wine breast vehicle hill climate diabete glass car iris kidney liver
-for c in wine breast vehicle climate diabete glass car iris kidney liver mushroom
+for c in wine breast vehicle climate diabete glass
 do
     if [ ! -d "$DATA_DIR/$c" ]; then
         echo "Error: invalid case \"$c\" !!"

@@ -34,10 +34,6 @@ class KNN
             end
         end
 
-        if @use_ntgrowth
-            nt_growth()
-        end
-
         if @use_PCA and @attributes[0...-1].detect {|attribute| !attribute.continuous?}
             @use_PCA = false
             puts "Note: PCA is off due to non-continuous attributes"
@@ -49,6 +45,10 @@ class KNN
             @examples = @examples.map do |example|
                 transform(example)
             end
+        end
+
+        if @use_ntgrowth
+            nt_growth()
         end
     end
 
@@ -146,11 +146,10 @@ class KNN
 
         if all_continuous
             return calculate_feature_weighting_continuous()
-            return nil
         elsif all_discrete
             return calculate_feature_weighting_discrete()
         else
-            puts "TODO: mix"
+            puts "Haven't supported feature weighting with mixed attribute types"
             return nil
         end
     end
@@ -219,7 +218,7 @@ class KNN
         k = 0
         values.each_with_index do |value, i|
             sum += value
-            if sum > energy_d * 0.9
+            if sum > energy_d * @energy_ratio
                 k = i
                 break
             end
